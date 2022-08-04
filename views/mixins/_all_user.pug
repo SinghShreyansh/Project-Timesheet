@@ -1,0 +1,31 @@
+mixin viewAllUsers(users)
+    //- p= h.dump(users)
+  .table-responsive
+    table.table.table-sm#ticketTable
+      thead
+        tr
+          th Name
+          th Email Address
+            //-   th Mobile
+          th Role
+          th Status
+            //- th Action
+      each user in users
+           //- h5= h.dump(ticket)
+        tbody
+          tr
+            td #{user.name}
+            td #{user.email}
+            td #{user.mobile}
+            td
+              if (user.user_type == 'user')
+                label.label.label-success User
+              else if (user.user_type == 'admin')
+                label.label.label-warning Admin
+            td
+              if (user.status == 'active')
+                label.label.label-success Active
+              else if (user.status == 'inactive')
+                label.label.label-danger In Active
+                    //- td
+                    //-   a(href=`/admin/user/update/${user._id}`) Edit

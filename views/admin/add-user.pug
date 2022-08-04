@@ -1,0 +1,62 @@
+extends layout-admin
+
+block content
+  .pcoded-content
+    .page-header.card
+      .row.align-items-end
+        .col-lg-8
+          .page-header-title
+            i.feather.icon-clipboard.bg-c-blue
+            .d-inline
+              h5 Add New User
+              //- span lorem ipsum dolor sit amet, consectetur adipisicing elit
+        .col-lg-4
+          .page-header-breadcrumb
+            ul.breadcrumb.breadcrumb-title
+              li.breadcrumb-item
+                a(href='/admin/dashboard')
+                  i.feather.icon-home
+              li.breadcrumb-item
+                a(href='javascript:void(0)') Add New User
+    .pcoded-inner-content
+      .main-body
+        .page-wrapper
+          .page-body
+            .row
+              .col-sm-12
+                .card
+                  .card-header
+                    h5 Add New User
+                  .card-block
+                    form(action='/admin/user/add' method="POST")
+                      .form-group.row
+                        label.col-sm-2.col-form-label Name
+                        .col-sm-10
+                          input.form-control(type='text' name="name" required)
+                      .form-group.row
+                        label.col-sm-2.col-form-label Email
+                        .col-sm-10
+                          input.form-control(type='text' name="email" required)
+                      .form-group.row
+                        label.col-sm-2.col-form-label Password
+                        .col-sm-10
+                          input.form-control(type='password' name="password" required)
+                      .form-group.row
+                        label.col-sm-2.col-form-label Mobile
+                        .col-sm-10
+                          input.form-control(type='number' name="mobile")
+                      .form-group.row
+                        label.col-sm-2.col-form-label User Type
+                        .col-sm-10
+                          select.form-control(name='user_type')
+                            option(value='user') User
+                            option(value='admin') Admin
+                      .form-group.row
+                        label.col-sm-2.col-form-label Status
+                        .col-sm-10
+                          select.form-control(name='status')
+                            option(value='active') Active
+                            option(value='inactive') Inactive
+                      button.btn.waves-effect.waves-light.btn-primary.btn-block(type="submit")
+                        i.icofont.icofont-user-alt-3
+                        | Submit →

@@ -1,0 +1,89 @@
+doctype html
+head
+  meta(http-equiv='Content-Type' content='text/html; charset=utf-8')
+  meta(http-equiv='X-UA-Compatible' content='IE=edge')
+  title Login
+  meta(content='width=device-width, initial-scale=1.0, shrink-to-fit=no' name='viewport')
+  link(rel='icon' href='/assets/img/icon.ico' type='image/x-icon')
+  // Fonts and icons
+  script(src='/assets/js/plugin/webfont/webfont.min.js')
+  script.
+    WebFont.load({
+    google: {"families":["Lato:300,400,700,900"]},
+    custom: {"families":["Flaticon", "Font Awesome 5 Solid", "Font Awesome 5 Regular", "Font Awesome 5 Brands", "simple-line-icons"], urls: ['/assets/css/fonts.min.css']},
+    active: function() {
+    sessionStorage.fonts = true;
+    }
+    });
+  // CSS Files
+  link(rel='stylesheet' href='/assets/css/bootstrap.min.css')
+  link(rel='stylesheet' href='/assets/css/atlantis.css')
+body.login
+  .wrapper.wrapper-login.wrapper-login-full.p-0
+    .login-aside.w-50.d-flex.flex-column.align-items-center.justify-content-center.text-center.bg-secondary-gradient
+        h1.title.fw-bold.text-white.mb-3 Join Our Comunity
+        p.subtitle.text-white.op-7 Ayo bergabung dengan komunitas kami untuk masa depan yang lebih baik
+    .login-aside.w-50.d-flex.align-items-center.justify-content-center.bg-white
+      .container.container-login.container-transparent.animated.fadeIn
+        h3.text-center Sign In To Admin
+        .login-form
+          .form-group
+            label.placeholder(for='username')
+              b Username
+            input#username.form-control(name='username' type='text' required='')
+          .form-group
+            label.placeholder(for='password')
+              b Password
+            a.link.float-right(href='login3.html#') Forget Password ?
+            .position-relative
+              input#password.form-control(name='password' type='password' required='')
+              .show-password
+                i.icon-eye
+          .form-group.form-action-d-flex.mb-3
+            .custom-control.custom-checkbox
+              input#rememberme.custom-control-input(type='checkbox')
+              label.custom-control-label.m-0(for='rememberme') Remember Me
+            a.btn.btn-secondary.col-md-5.float-right.mt-3.mt-sm-0.fw-bold(href='login3.html#') Sign In
+          .login-account
+            span.msg Don&apos;t have an account yet ?
+            a#show-signup.link(href='login3.html#') Sign Up
+      .container.container-signup.container-transparent.animated.fadeIn
+        h3.text-center Sign Up
+        .login-form
+          .form-group
+            label.placeholder(for='fullname')
+              b Fullname
+            input#fullname.form-control(name='fullname' type='text' required='')
+          .form-group
+            label.placeholder(for='email')
+              b Email
+            input#email.form-control(name='email' type='email' required='')
+          .form-group
+            label.placeholder(for='passwordsignin')
+              b Password
+            .position-relative
+              input#passwordsignin.form-control(name='passwordsignin' type='password' required='')
+              .show-password
+                i.icon-eye
+          .form-group
+            label.placeholder(for='confirmpassword')
+              b Confirm Password
+            .position-relative
+              input#confirmpassword.form-control(name='confirmpassword' type='password' required='')
+              .show-password
+                i.icon-eye
+          .row.form-sub.m-0
+            .custom-control.custom-checkbox
+              input#agree.custom-control-input(type='checkbox' name='agree')
+              label.custom-control-label(for='agree') I Agree the terms and conditions.
+          .row.form-action
+            .col-md-6
+              a#show-signin.btn.btn-danger.btn-link.w-100.fw-bold(href='login3.html#') Cancel
+            .col-md-6
+              a.btn.btn-secondary.w-100.fw-bold(href='login3.html#') Sign Up
+
+script(src='/assets/js/core/jquery.3.2.1.min.js')
+script(src='/assets/js/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js')
+script(src='/assets/js/core/popper.min.js')
+script(src='/assets/js/core/bootstrap.min.js')
+script(src='/assets/js/atlantis.min.js')

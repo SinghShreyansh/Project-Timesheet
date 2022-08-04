@@ -1,0 +1,34 @@
+extends layout-admin
+
+include mixins/_update-user
+
+block content
+  //- p= h.dump(user)
+  .pcoded-content
+    .page-header.card
+      .row.align-items-end
+        .col-lg-8
+          .page-header-title
+            i.feather.icon-clipboard.bg-c-blue
+            .d-inline
+              h5 Update User
+              //- span lorem ipsum dolor sit amet, consectetur adipisicing elit
+        .col-lg-4
+          .page-header-breadcrumb
+            ul.breadcrumb.breadcrumb-title
+              li.breadcrumb-item
+                a(href='/dashboard')
+                  i.feather.icon-home
+              li.breadcrumb-item
+                a(href='javascript:void(0)') Update User
+    .pcoded-inner-content
+      .main-body
+        .page-wrapper
+          .page-body
+            .row
+              .col-sm-12
+                .card
+                  .card-header
+                    h5 Update User
+                  .card-block
+                    +updateUser(user)

@@ -1,0 +1,78 @@
+extends layout-admin
+
+block content
+  //- p= h.dump(feed)
+  .pcoded-content
+    .page-header.card
+      .row.align-items-end
+        .col-lg-8
+          .page-header-title
+            i.feather.icon-clipboard.bg-c-blue
+            .d-inline
+              h5 Update Feed
+              //- span lorem ipsum dolor sit amet, consectetur adipisicing elit
+        .col-lg-4
+          .page-header-breadcrumb
+            ul.breadcrumb.breadcrumb-title
+              li.breadcrumb-item
+                a(href='/admin/dashboard')
+                  i.feather.icon-home
+              li.breadcrumb-item
+                a(href='javascript:void(0)') Update Feed
+    .pcoded-inner-content
+      .main-body
+        .page-wrapper
+          .page-body
+            .row
+              .col-sm-12
+                .card
+                  .card-header
+                    h5 Update Feed
+                  .card-block
+                    form(action=`/admin/feed/update/${feed._id}` method="POST" enctype="multipart/form-data")
+                      .form-group.row
+                        label.col-sm-2.col-form-label Name
+                        .col-sm-10
+                          input.form-control(type='text' name="name" value=feed.name required)
+                      .form-group.row
+                        label.col-sm-2.col-form-label Description
+                        .col-sm-10
+                          textarea.form-control(type='text' name="description" cols="30" rows="6")= feed.description
+                      .form-group.row
+                        label.col-sm-2.col-form-label Profile Image
+                        .col-sm-10
+                          input.form-control(type='file' name="profile_img" accept="image/x-png,image/gif,image/jpeg")
+                      .form-group.row
+                        label.col-sm-2.col-form-label Feed Image
+                        .col-sm-10
+                          input.form-control(type='file' name="feed_img" accept="image/x-png,image/gif,image/jpeg")
+                      input.form-control(type='hidden' id="longitude" name="location[coordinates][0]" value=(feed.location && feed.location.coordinates[0]))
+                      input.form-control(type='hidden' id="latitude" name="location[coordinates][1]" value=(feed.location && feed.location.coordinates[1]))
+                      .form-group.row
+                        //- Address
+                        label.col-sm-2.col-form-label Address
+                        .col-sm-10
+                          input.form-control(type='text' id="address" name="location[address]" value=(feed.location && feed.location.address))
+                      .col-md-12
+                        div#myMap(style="height: 400px; margin-top:30px; display:none")
+                      .form-group.row
+                        label.col-sm-2.col-form-label Status
+                        .col-sm-10
+                          select.form-control(name='status')
+                            if feed.status == 'active'
+                              option(value='active' selected) Active
+                              option(value='inactive') Inactive
+                            else if feed.status == 'inactive'
+                              option(value='active') Active
+                              option(value='inactive' selected) Inactive
+                      button.btn.waves-effect.waves-light.btn-primary.btn-block(type="submit")
+                        i.icofont.icofont-user-alt-3
+                        | Submit →
+
+
+  block script
+    script(src="https://code.jquery.com/jquery-3.3.1.min.js", integrity='sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=', crossorigin='anonymous')
+    script(src="/admin/javascript/map.js")
+  script.
+    var addressInput = document.getElementById('address');
+    var autocomplete = new google.maps.places.Autocomplete(addressInput);

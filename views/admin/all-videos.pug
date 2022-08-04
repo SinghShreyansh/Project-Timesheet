@@ -1,0 +1,156 @@
+extends layout-admin
+
+//- include mixins/_pagination-video
+
+block content
+  //- p= h.dump(tags)
+  #cover-spin
+  .pcoded-content
+    .page-header.card
+      .row.align-items-end
+        .col-lg-8
+          .page-header-title
+            i.feather.icon-clipboard.bg-c-blue
+            .d-inline
+              h5 View All Videos
+              //- span lorem ipsum dolor sit amet, consectetur adipisicing elit
+        .col-lg-4
+          .page-header-breadcrumb
+            ul.breadcrumb.breadcrumb-title
+              li.breadcrumb-item
+                a(href='/dashboard')
+                  i.feather.icon-home
+              li.breadcrumb-item
+                a(href='javascript:void(0)') View All Videos
+    .pcoded-inner-content
+      .main-body
+        .page-wrapper
+          .page-body
+            .show-alert
+            .row
+              .col-sm-12
+                .card
+                  .card-header
+                    h5 View All Videos
+                  .card-block
+                    .table-responsive
+                      table#basic-datatables.table.table-sm.display.table-hover.dataTable(role='grid', aria-describedby='basic-datatables_info')
+                        thead
+                          tr
+                            th Name
+                            th Tag
+                            th Thumbnail
+                            th Status
+                            th Sort action
+                            th Order
+                            th Action
+                        tbody
+                          each video in videos
+                            tr
+                              td #{video.name && video.name.split(" ").length > 5 ? `${video.name.split(" ").slice(0, 5).join(" ")}..` : video.name}
+                              td #{video.tag_name}
+                              td
+                                if video.thumbnail
+                                  .media-left.photo-table
+                                    a(href='javascript:void(0)')
+                                      img.media-object(src=`${video.thumbnail}`)
+                                else
+                                  | Not provided
+                              td
+                                if video.status == 'active'
+                                  label.label.label-success Active
+                                else if video.status == 'inactive'
+                                  label.label.label-danger Inactive
+                              td
+                                button.btn-sort.btn.waves-effect.waves-light.btn-primary(type="button" onclick=`sortRow('${video.sorting_video}', '${count}', '${video._id}', this)` style="padding: 4px 10px;") Sort To
+                                div.naya-class(class="sort-div-"+video._id, style="display:none")
+                                  input.w-50(type="number", value="", maxlength=count, id=`sort-input-${video._id}` required)
+                                  button.btn.waves-effect.waves-light.btn-primary(type="button" onclick=`sortTo('${video._id}', '${video.sorting_video}')` style="padding: 4px 10px; margin: 0px 10px 0 10px;") sort
+                                  button.btn.waves-effect.waves-light.btn-primary(type="button" onclick="closeSort()" style="padding: 4px 10px; margin-right:10px;") Cancel
+                              td.some-sort #{video.sorting_video}
+                              td
+                                a(href=`/admin/video/update/${video._id}`)
+                                  | Edit
+
+            .row
+              //- +paginationVideo(page, pages, count)
+            .show-alert
+
+  script.
+    $(document).ready(function() {
+      $('#basic-datatables').DataTable({
+        ordering: false
+      });
+    } );
+    var mainCount = !{count};
+    //- console.log(mainCount);
+    function sortRow (videoCount, totalCount, id, el) {
+      $('.naya-class').hide();
+      $('.btn-sort').show();
+      $(el).hide();
+      $(`.sort-div-${id}`).show();
+      return;
+    };
+    function closeSort () {
+      $('.naya-class').hide();
+      $('.btn-sort').show();
+      return;
+    };
+    function sortTo (tagID, sortingTag) {
+      var onlyTagID = $(`#sort-input-${tagID}`).val();
+      console.log(onlyTagID);
+      if (!onlyTagID) {
+        alert('Please provide number!');
+        $(`#sort-input-${tagID}`).val("");
+        return false;
+      }
+      if (isNaN(onlyTagID)) {
+        alert('Numbers compulsory!');
+        $(`#sort-input-${tagID}`).val("");
+        return false;
+      }
+      if (!(onlyTagID > 0 && onlyTagID <= mainCount)) {
+        alert('Not Allowed!');
+        $(`#sort-input-${tagID}`).val("");
+        return false;
+      }
+      if (onlyTagID == sortingTag) {
+        alert('Already placed on same number!');
+        $(`#sort-input-${tagID}`).val("");
+        return false;
+      }
+      $('#cover-spin').show(0);
+      $.ajax({
+          method: 'POST',
+          url: `/admin/video/sort`,
+          data: {
+              'currentVal': sortingTag,
+              'tagID': onlyTagID
+              //- 'id': this.id
+          },
+          dataType: 'json',
+          success: function(data){
+            //- console.log(data);
+            $('.show-alert').after(`
+              <div class="alert alert-success" role="alert">
+                Successfully sorted!
+              </div>
+            `);
+            $('#cover-spin').show(0);
+            setTimeout(function() {
+              window.location.reload();
+            }, 1500)
+          },
+          error: function (err) {
+            console.log(err);
+            $('.show-alert').after(`
+              <div class="alert alert-danger" role="alert">
+                Something went wrong!
+              </div>
+            `)
+            setTimeout(function() {
+              window.location.reload();
+            }, 1500)
+          }
+        })
+    };

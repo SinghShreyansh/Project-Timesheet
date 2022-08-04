@@ -1,0 +1,146 @@
+extends layout-admin
+
+include mixins/_pagination-tag
+
+block content
+  //- p= h.dump(tags)
+  .pcoded-content
+    .page-header.card
+      .row.align-items-end
+        .col-lg-8
+          .page-header-title
+            i.feather.icon-clipboard.bg-c-blue
+            .d-inline
+              h5 View All Tags
+              //- span lorem ipsum dolor sit amet, consectetur adipisicing elit
+        .col-lg-4
+          .page-header-breadcrumb
+            ul.breadcrumb.breadcrumb-title
+              li.breadcrumb-item
+                a(href='/dashboard')
+                  i.feather.icon-home
+              li.breadcrumb-item
+                a(href='javascript:void(0)') View All Tags
+    #cover-spin
+    .pcoded-inner-content
+      .main-body
+        .page-wrapper
+          .page-body
+            .show-alert
+            .row
+              .col-sm-12
+                .card
+                  - var countss = 1
+                  .card-header
+                    h5 View All Tags
+                  .card-block
+                    .table-responsive
+                      table.table.table-sm
+                        thead
+                          tr
+                            th Name
+                            th Nearby
+                            th Status
+                            th Sort action
+                            th Order
+                            th Action
+                        tbody
+                          each tag in tags
+                            tr.click-content
+                              td #{tag.name}
+                              td #{tag.nearby == 0 ? 'No' : 'Yes'}
+                              td
+                                if tag.status == 'active'
+                                  label.label.label-success Active
+                                else if tag.status == 'inactive'
+                                  label.label.label-danger Inactive
+                              td
+                                button.btn-sort.btn.waves-effect.waves-light.btn-primary(type="button" onclick=`sortRow('${tag.sorting_tag}', '${count}', '${tag._id}', this)` style="padding: 4px 10px;") Sort To
+                                div.naya-class(class="sort-div-"+tag._id, style="display:none")
+                                  input.w-25(type="text", value="", id=`sort-input-${tag._id}` required)
+                                  button.btn.waves-effect.waves-light.btn-primary(type="button" onclick=`sortTo('${tag._id}', '${tag.sorting_tag}')` style="padding: 4px 10px;") sort
+                                  button.btn.waves-effect.waves-light.btn-primary(type="button" onclick="closeSort()" style="padding: 4px 10px;") Cancel
+                              td.some-sort #{tag.sorting_tag}
+                              td
+                                a(href=`/admin/tag/update/${tag._id}`)
+                                  | Edit
+
+            .row
+              +paginationTag(page, pages, count)
+            .show-alert
+
+  //- block script
+    //- script(src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js")
+
+  script.
+    var mainCount = !{count};
+    console.log(mainCount);
+    function sortRow (tagCount, totalCount, id, el) {
+      $('.naya-class').hide();
+      $('.btn-sort').show();
+      $(el).hide();
+      $(`.sort-div-${id}`).show();
+      return;
+    };
+    function closeSort () {
+      $('.naya-class').hide();
+      $('.btn-sort').show();
+      return;
+    };
+    function sortTo (tagID, sortingTag) {
+      var onlyTagID = $(`#sort-input-${tagID}`).val();
+      if (!onlyTagID) {
+        alert('Please provide number!');
+        $(`#sort-input-${tagID}`).val("");
+        return false;
+      }
+      if (isNaN(onlyTagID)) {
+        alert('Numbers compulsory!');
+        $(`#sort-input-${tagID}`).val("");
+        return false;
+      }
+      if (!(onlyTagID > 0 && onlyTagID <= mainCount)) {
+        alert('Not Allowed!');
+        $(`#sort-input-${tagID}`).val("");
+        return false;
+      }
+      if (onlyTagID == sortingTag) {
+        alert('Already placed on same number!');
+        $(`#sort-input-${tagID}`).val("");
+        return false;
+      }
+      $('#cover-spin').show(0);
+      $.ajax({
+          method: 'POST',
+          url: `/admin/tag/sort`,
+          data: {
+              'currentVal': sortingTag,
+              'tagID': onlyTagID
+              //- 'id': this.id
+          },
+          dataType: 'json',
+          success: function(data){
+            //- console.log(data);
+            $('.show-alert').after(`
+              <div class="alert alert-success" role="alert">
+                Successfully sorted!
+              </div>
+            `)
+            $('#cover-spin').show(0);
+            setTimeout(function() {
+              window.location.reload();
+            }, 1500)
+          },
+          error: function (err) {
+            console.log(err);
+            $('.show-alert').after(`
+              <div class="alert alert-danger" role="alert">
+                Something went wrong!
+              </div>
+            `)
+            setTimeout(function() {
+              window.location.reload();
+            }, 1500)
+          }
+        })
+    };

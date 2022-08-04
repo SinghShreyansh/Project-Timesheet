@@ -1,0 +1,73 @@
+extends layout-admin
+
+block content
+  //- p= h.dump(feed)
+  .pcoded-content
+    .page-header.card
+      .row.align-items-end
+        .col-lg-8
+          .page-header-title
+            i.feather.icon-clipboard.bg-c-blue
+            .d-inline
+              h5 #{feed.name}
+              //- span lorem ipsum dolor sit amet, consectetur adipisicing elit
+        .col-lg-4
+          .page-header-breadcrumb
+            ul.breadcrumb.breadcrumb-title
+              li.breadcrumb-item
+                a(href='/admin/dashboard')
+                  i.feather.icon-home
+              li.breadcrumb-item
+                a(href='javascript:void(0)') #{feed.name}
+    .pcoded-inner-content
+      .main-body
+        .page-wrapper
+          .page-body
+            .row
+              .col-sm-12
+                .card
+                  .card-header
+                    h5 Information
+                  .card-block
+                    strong
+                      if feed.name
+                        h5
+                          u Name
+                          |&nbsp;→ #{feed.name}
+                        hr
+                      if feed.description
+                        h5
+                          u Description
+                          | &nbsp;→ #{feed.description}
+                        hr
+                      if feed.profile_img
+                        h5
+                          u Profile Image →
+                            img(src=`/uploads/profile/${feed.profile_img}`, alt="", width=200, height=200, style="margin-right:20px;")
+                        br
+                        a(href=`/admin/feed/remove/profile/image/${feed._id}`)
+                          button.btn.btn-success.btn-round.waves-effect.waves-light(style="margin-right: 20px;") Remove Profile Image
+                        hr
+                      if feed.feed_img
+                        h5
+                          u Feed Image →
+                            img(src=`/uploads/feed/${feed.feed_img}`, alt="", width=200, height=200, style="margin-right:20px;")
+                        br
+                        a(href=`/admin/feed/remove/feed/image/${feed._id}`)
+                          button.btn.btn-success.btn-round.waves-effect.waves-light(style="margin-right: 20px;") Remove Image 2
+                        hr
+                      if feed.status == 'active'
+                        h5
+                          u Status
+                          | &nbsp;→ Active
+                      else if feed.status == 'inactive'
+                        h5
+                          u Status
+                          | &nbsp;→ Inactive
+                      hr
+                      if feed.location.address
+                        h5
+                          u Name
+                          |&nbsp;→ #{feed.location.address}
+                a(href=`/admin/feed/update/${feed._id}`)
+                  button.btn.btn-success.btn-round.waves-effect.waves-light(style="margin-right: 20px;") Edit #{feed.name}

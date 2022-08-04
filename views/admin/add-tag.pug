@@ -1,0 +1,62 @@
+extends layout-admin
+
+block content
+  .pcoded-content
+    .page-header.card
+      .row.align-items-end
+        .col-lg-8
+          .page-header-title
+            i.feather.icon-clipboard.bg-c-blue
+            .d-inline
+              h5 Add New Tag
+              //- span lorem ipsum dolor sit amet, consectetur adipisicing elit
+        .col-lg-4
+          .page-header-breadcrumb
+            ul.breadcrumb.breadcrumb-title
+              li.breadcrumb-item
+                a(href='/admin/dashboard')
+                  i.feather.icon-home
+              li.breadcrumb-item
+                a(href='javascript:void(0)') Add New Tag
+    .pcoded-inner-content
+      .main-body
+        .page-wrapper
+          .page-body
+            .row
+              .col-sm-12
+                .card
+                  .card-header
+                    h5 Add New Feed
+                  .card-block
+                    form(action='/admin/tag/add' method="POST", enctype="multipart/form-data")
+                      .form-group.row
+                        label.col-sm-2.col-form-label Name
+                        .col-sm-10
+                          input.form-control(type='text' name="name" required)
+                      .form-group.row
+                        label.col-sm-2.col-form-label Code
+                        .col-sm-10
+                          input.form-control(type='text' name="code")
+                      .form-group.row
+                        label.col-sm-2.col-form-label Icon
+                        .col-sm-10
+                          input.form-control(type='file' name="icon", accept="image/x-png,image/gif,image/jpeg")
+                      .form-group.row
+                        label.col-sm-2.col-form-label Description
+                        .col-sm-10
+                          textarea.form-control(name="desc", cols="30", rows="10")
+                      .form-group.row
+                        label.col-sm-2.col-form-label Nearby
+                        .col-sm-10
+                          select.form-control(name='nearby')
+                            option(value=1) Yes
+                            option(value=0 selected) No
+                      .form-group.row
+                        label.col-sm-2.col-form-label Status
+                        .col-sm-10
+                          select.form-control(name='status')
+                            option(value='active') Active
+                            option(value='inactive') Inactive
+                      button.btn.waves-effect.waves-light.btn-primary.btn-block(type="submit")
+                        i.icofont.icofont-user-alt-3
+                        | Submit →

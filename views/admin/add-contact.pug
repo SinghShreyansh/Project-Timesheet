@@ -1,0 +1,125 @@
+extends layout-admin
+
+block content
+  .pcoded-content
+    .page-header.card
+      .row.align-items-end
+        .col-lg-8
+          .page-header-title
+            i.feather.icon-clipboard.bg-c-blue
+            .d-inline
+              h5 Add Contacts
+        .col-lg-4
+          .page-header-breadcrumb
+            ul.breadcrumb.breadcrumb-title
+              li.breadcrumb-item
+                a(href='/admin/dashboard')
+                  i.feather.icon-home
+              li.breadcrumb-item
+                a(href='javascript:void(0)') Add Contacts
+    .pcoded-inner-content
+      .main-body
+        .page-wrapper
+          form(action='/admin/contact/add' method="POST" enctype='multipart/form-data')
+            .page-body
+              .row
+                .col-sm-12
+                  .card
+                    .card-header
+                      h5 Mail
+                    .card-block
+                      .form-group.row
+                        label.col-sm-2.col-form-label Icon
+                        .col-sm-10.padd
+                          input.form-control(type="file", name="mail_icon", accept="image/x-png,image/gif,image/jpeg" required)
+                      .form-group.row
+                        label.col-sm-2.col-form-label Text
+                        .col-sm-10.padd
+                          textarea.form-control(type='text' name="mail_text" cols="30" rows="6" required)
+                      .form-group.row
+                        label.col-sm-2.col-form-label Link Text
+                        .col-sm-10.padd
+                          input.form-control(type="text", name="mail_link_text", required)
+                      .form-group.row
+                        label.col-sm-2.col-form-label Link
+                        .col-sm-10.padd
+                          input.form-control(type="text", name="mail_link", required)
+            .page-body
+              .row
+                .col-sm-12
+                  .card
+                    .card-header
+                      h5 Whatsapp
+                    .card-block
+                      .form-group.row
+                        label.col-sm-2.col-form-label Icon
+                        .col-sm-10.padd
+                          input.form-control(type="file", name="whatsapp_icon", accept="image/x-png,image/gif,image/jpeg" required)
+                      .form-group.row
+                        label.col-sm-2.col-form-label Text
+                        .col-sm-10.padd
+                          textarea.form-control(type='text' name="whatsapp_text" cols="30" rows="6" required)
+                      .form-group.row
+                        label.col-sm-2.col-form-label Link Text
+                        .col-sm-10.padd
+                          input.form-control(type="text", name="whatsapp_link_text", required)
+                      .form-group.row
+                        label.col-sm-2.col-form-label Link
+                        .col-sm-10.padd
+                          input.form-control(type="text", name="whatsapp_link", required)
+            .page-body
+              .row
+                .col-sm-12
+                  .card
+                    .card-header
+                      h5 Events Mail
+                    .card-block
+                      .form-group.row
+                        label.col-sm-2.col-form-label Icon
+                        .col-sm-10.padd
+                          input.form-control(type="file", name="event_mail_icon", accept="image/x-png,image/gif,image/jpeg" required)
+                      .form-group.row
+                        label.col-sm-2.col-form-label Text
+                        .col-sm-10.padd
+                          textarea.form-control(type='text' name="event_mail_text" cols="30" rows="6" required)
+                      .form-group.row
+                        label.col-sm-2.col-form-label Link Text
+                        .col-sm-10.padd
+                          input.form-control(type="text", name="event_mail_link_text", required)
+                      .form-group.row
+                        label.col-sm-2.col-form-label Link
+                        .col-sm-10.padd
+                          input.form-control#link_text(type="text", name="event_mail_link", required)
+                          br
+                          span#message(style="font-size: 20px")
+            .page-body
+              .row
+                .col-sm-12
+                  .card
+                    .card-header
+                      h5 Bottom Text
+                    .card-block
+                      .form-group.row
+                        label.col-sm-2.col-form-label Bottom Text
+                        .col-sm-10.padd
+                          input.form-control(type="text", name="bottom_text", required)
+                  button.btn.waves-effect.waves-light.btn-primary.btn-block(type="submit" id="submit_btn")
+                    i.icofont.icofont-user-alt-3
+                    | Submit →
+  block script
+    script(src="https://code.jquery.com/jquery-3.3.1.min.js", integrity='sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=', crossorigin='anonymous')
+    script(src="/admin/custom/add-home.js")
+
+  script.
+    var isUrlValid = function () {
+      var userInput = document.getElementById("link_text").value;
+      var res = userInput.match(/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g);
+      if (res == null) {
+        document.getElementById('message').style.color = 'red';
+        document.getElementById('message').innerHTML = 'Not a Valid URL';
+        document.getElementById("submit_btn").disabled = true;
+      } else {
+        document.getElementById('message').style.display = 'none';
+        document.getElementById("submit_btn").disabled = false;
+      }
+    };

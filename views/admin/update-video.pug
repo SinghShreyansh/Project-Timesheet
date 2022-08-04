@@ -1,0 +1,81 @@
+extends layout-admin
+
+block content
+  .pcoded-content
+    .page-header.card
+      .row.align-items-end
+        .col-lg-8
+          .page-header-title
+            i.feather.icon-clipboard.bg-c-blue
+            .d-inline
+              h5 Update Video
+              //- span lorem ipsum dolor sit amet, consectetur adipisicing elit
+        .col-lg-4
+          .page-header-breadcrumb
+            ul.breadcrumb.breadcrumb-title
+              li.breadcrumb-item
+                a(href='/admin/dashboard')
+                  i.feather.icon-home
+              li.breadcrumb-item
+                a(href='javascript:void(0)') Update Video
+    .pcoded-inner-content
+      .main-body
+        .page-wrapper
+          .page-body
+            .row
+              .col-sm-12
+                .card
+                  .card-header
+                    h5 Update Video
+                  .card-block
+                    form(action=`/admin/video/edit/${video._id}` method="POST", enctype="multipart/form-data")
+                      .form-group.row
+                        label.col-sm-2.col-form-label Name
+                        .col-sm-10
+                          input.form-control(type='text' name="name" value=video.name required)
+                      .form-group.row
+                        label.col-sm-2.col-form-label Video Thumbnail
+                        .col-sm-10
+                          input.form-control(type='file' name="thumbnail", accept="image/x-png,image/gif,image/jpeg")
+                      .form-group.row
+                        label.col-sm-2.col-form-label Preview Thumbnail
+                        .col-sm-10
+                          img(src=`${video.thumbnail}`, alt="", srcset="")
+                      .form-group.row
+                        label.col-sm-2.col-form-label Video Link
+                        .col-sm-10
+                          input.form-control(type='text' name="link" value=video.link required)
+                      .form-group.row
+                        label.col-sm-2.col-form-label Preview Link
+                        .col-sm-10
+                          a(href=`${video.link}` target="_blank") Click - #{video.link}
+                      .form-group.row
+                        label.col-sm-2.col-form-label Description
+                        .col-sm-10
+                          textarea.form-control(name="desc", cols="30", rows="10")= video.desc
+                      .form-group.row
+                        label.col-sm-2.col-form-label Tag
+                        .col-sm-10
+                          select.js-example-basic-single-store-tag.col-sm-12(name='tag_name' required)
+                            option(value="") --- Choose Tag ---
+                            each tag in tags
+                              option(value=tag.name selected=(tag.name == video.tag_name))= tag.name
+                      .form-group.row
+                        label.col-sm-2.col-form-label Featured
+                        .col-sm-10
+                          select.form-control(name='featured')
+                            option(value=1 selected=(video.featured == 1 ? 'selected' : null)) Yes
+                            option(value=0 selected=(video.featured == 0 ? 'selected' : null)) No
+                      .form-group.row
+                        label.col-sm-2.col-form-label Status
+                        .col-sm-10
+                          select.form-control(name='status')
+                            if video.status == 'active'
+                              option(value='active' selected) Active
+                              option(value='inactive') Inactive
+                            else if video.status == 'inactive'
+                              option(value='active') Active
+                              option(value='inactive' selected) Inactive
+                      button.btn.waves-effect.waves-light.btn-primary.btn-block(type="submit")
+                        i.icofont.icofont-user-alt-3
+                        | Submit →

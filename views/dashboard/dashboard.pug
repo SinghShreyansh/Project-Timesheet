@@ -1,0 +1,542 @@
+extends ../layout-admin/layout-admin
+
+block dashboardSidebar
+          li.nav-item.active
+              a(href='/account/dashboard')
+                p Dashboard
+          li.nav-section
+            span.sidebar-mini-icon
+              i.fa.fa-ellipsis-h
+            h4.text-section Components
+block userSidebar
+          li.nav-item
+              a(href='/account/user')
+               p Users
+block addUserSidebar
+          li.nav-item
+              a(href='/account/adduser')
+               p Add User
+
+block projectSidebar
+          li.nav-item
+              a(href='/account/project')
+               p Projects
+block addProjectSidebar
+          li.nav-item
+              a(href='/account/addproject')
+               p Add Project
+block addAssignProjectSidebar
+          li.nav-item
+              a(href='/account/add_assign_project')
+                p Assign Project
+block tracker
+          li.nav-item
+              a(href='/account/tracker')
+                p Tracker
+block timesheet
+          li.nav-item
+              a(href='/account/timesheet')
+                p Timesheet
+
+block content
+ .main-panel
+  .content
+    .panel-header.bg-primary-gradient
+      .page-inner.py-5
+        .d-flex.align-items-left.align-items-md-center.flex-column.flex-md-row
+          div
+            h2.text-white.pb-2.fw-bold Dashboard
+            h5.text-white.op-7.mb-2 Free Bootstrap 4 Admin Dashboard
+          .ml-md-auto.py-2.py-md-0
+            a.btn.btn-white.btn-border.btn-round.mr-2(href='index.html#') Manage
+            a.btn.btn-secondary.btn-round(href='index.html#') Add Customer
+    .page-inner.mt--5
+      .row.mt--2
+        .col-md-6
+          .card.full-height
+            .card-body
+              .card-title Overall statistics
+              .card-category Daily information about statistics in system
+              .d-flex.flex-wrap.justify-content-around.pb-2.pt-4
+                .px-2.pb-2.pb-md-0.text-center
+                  #circles-1
+                  h6.fw-bold.mt-3.mb-0 New Users
+                .px-2.pb-2.pb-md-0.text-center
+                  #circles-2
+                  h6.fw-bold.mt-3.mb-0 Sales
+                .px-2.pb-2.pb-md-0.text-center
+                  #circles-3
+                  h6.fw-bold.mt-3.mb-0 Subscribers
+        .col-md-6
+          .card.full-height
+            .card-body
+              .card-title Total income &amp; spend statistics
+              .row.py-3
+                .col-md-4.d-flex.flex-column.justify-content-around
+                  div
+                    h6.fw-bold.text-uppercase.text-success.op-8 Total Income
+                    h3.fw-bold $9.782
+                  div
+                    h6.fw-bold.text-uppercase.text-danger.op-8 Total Spend
+                    h3.fw-bold $1,248
+                .col-md-8
+                  #chart-container
+                    canvas#totalIncomeChart
+      .row
+        .col-md-8
+          .card
+            .card-header
+              .card-head-row
+                .card-title User Statistics
+                .card-tools
+                  a.btn.btn-info.btn-border.btn-round.btn-sm.mr-2(href='index.html#')
+                    span.btn-label
+                      i.fa.fa-pencil
+                    | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Export
+                  a.btn.btn-info.btn-border.btn-round.btn-sm(href='index.html#')
+                    span.btn-label
+                      i.fa.fa-print
+                    | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Print
+            .card-body
+              .chart-container(style='min-height: 375px')
+                canvas#statisticsChart
+              #myChartLegend
+        .col-md-4
+          .card.card-primary
+            .card-header
+              .card-title Daily Sales
+              .card-category March 25 - April 02
+            .card-body.pb-0
+              .mb-4.mt-2
+                h1 $4,578.58
+              .pull-in
+                canvas#dailySalesChart
+          .card
+            .card-body.pb-0
+              .h1.fw-bold.float-right.text-warning +7%
+              h2.mb-2 213
+              p.text-muted Transactions
+              .pull-in.sparkline-fix
+                #lineChart
+      .row.row-card-no-pd
+        .col-md-12
+          .card
+            .card-header
+              .card-head-row.card-tools-still-right
+                h4.card-title Users Geolocation
+                .card-tools
+                  button.btn.btn-icon.btn-link.btn-primary.btn-xs
+                    span.fa.fa-angle-down
+                  button.btn.btn-icon.btn-link.btn-primary.btn-xs.btn-refresh-card
+                    span.fa.fa-sync-alt
+                  button.btn.btn-icon.btn-link.btn-primary.btn-xs
+                    span.fa.fa-times
+              p.card-category
+                | Map of the distribution of users around the world
+            .card-body
+              .row
+                .col-md-6
+                  .table-responsive.table-hover.table-sales
+                    table.table
+                      tbody
+                        tr
+                          td
+                            .flag
+                              img(src='../assets/img/flags/id.png' alt='indonesia')
+                          td Indonesia
+                          td.text-right
+                            | 2.320
+                          td.text-right
+                            | 42.18%
+                        tr
+                          td
+                            .flag
+                              img(src='../assets/img/flags/us.png' alt='united states')
+                          td USA
+                          td.text-right
+                            | 240
+                          td.text-right
+                            | 4.36%
+                        tr
+                          td
+                            .flag
+                              img(src='../assets/img/flags/au.png' alt='australia')
+                          td Australia
+                          td.text-right
+                            | 119
+                          td.text-right
+                            | 2.16%
+                        tr
+                          td
+                            .flag
+                              img(src='../assets/img/flags/ru.png' alt='russia')
+                          td Russia
+                          td.text-right
+                            | 1.081
+                          td.text-right
+                            | 19.65%
+                        tr
+                          td
+                            .flag
+                              img(src='../assets/img/flags/cn.png' alt='china')
+                          td China
+                          td.text-right
+                            | 1.100
+                          td.text-right
+                            | 20%
+                        tr
+                          td
+                            .flag
+                              img(src='../assets/img/flags/br.png' alt='brazil')
+                          td Brasil
+                          td.text-right
+                            | 640
+                          td.text-right
+                            | 11.63%
+                .col-md-6
+                  .mapcontainer
+                    #map-example.vmap
+      .row
+        .col-md-4
+          .card
+            .card-header
+              .card-title Top Products
+            .card-body.pb-0
+              .d-flex
+                .avatar
+                  img.avatar-img.rounded-circle(src='../assets/img/logoproduct.svg' alt='...')
+                .flex-1.pt-1.ml-2
+                  h6.fw-bold.mb-1 CSS
+                  small.text-muted Cascading Style Sheets
+                .d-flex.ml-auto.align-items-center
+                  h3.text-info.fw-bold +$17
+              .separator-dashed
+              .d-flex
+                .avatar
+                  img.avatar-img.rounded-circle(src='../assets/img/logoproduct.svg' alt='...')
+                .flex-1.pt-1.ml-2
+                  h6.fw-bold.mb-1 J.CO Donuts
+                  small.text-muted The Best Donuts
+                .d-flex.ml-auto.align-items-center
+                  h3.text-info.fw-bold +$300
+              .separator-dashed
+              .d-flex
+                .avatar
+                  img.avatar-img.rounded-circle(src='../assets/img/logoproduct3.svg' alt='...')
+                .flex-1.pt-1.ml-2
+                  h6.fw-bold.mb-1 Ready Pro
+                  small.text-muted Bootstrap 4 Admin Dashboard
+                .d-flex.ml-auto.align-items-center
+                  h3.text-info.fw-bold +$350
+              .separator-dashed
+              .pull-in
+                canvas#topProductsChart
+        .col-md-4
+          .card
+            .card-body
+              .card-title.fw-mediumbold Suggested People
+              .card-list
+                .item-list
+                  .avatar
+                    img.avatar-img.rounded-circle(src='../assets/img/jm_denis.jpg' alt='...')
+                  .info-user.ml-3
+                    .username Jimmy Denis
+                    .status Graphic Designer
+                  button.btn.btn-icon.btn-primary.btn-round.btn-xs
+                    i.fa.fa-plus
+                .item-list
+                  .avatar
+                    img.avatar-img.rounded-circle(src='../assets/img/chadengle.jpg' alt='...')
+                  .info-user.ml-3
+                    .username Chad
+                    .status CEO Zeleaf
+                  button.btn.btn-icon.btn-primary.btn-round.btn-xs
+                    i.fa.fa-plus
+                .item-list
+                  .avatar
+                    img.avatar-img.rounded-circle(src='../assets/img/talha.jpg' alt='...')
+                  .info-user.ml-3
+                    .username Talha
+                    .status Front End Designer
+                  button.btn.btn-icon.btn-primary.btn-round.btn-xs
+                    i.fa.fa-plus
+                .item-list
+                  .avatar
+                    img.avatar-img.rounded-circle(src='../assets/img/mlane.jpg' alt='...')
+                  .info-user.ml-3
+                    .username John Doe
+                    .status Back End Developer
+                  button.btn.btn-icon.btn-primary.btn-round.btn-xs
+                    i.fa.fa-plus
+                .item-list
+                  .avatar
+                    img.avatar-img.rounded-circle(src='../assets/img/talha.jpg' alt='...')
+                  .info-user.ml-3
+                    .username Talha
+                    .status Front End Designer
+                  button.btn.btn-icon.btn-primary.btn-round.btn-xs
+                    i.fa.fa-plus
+                .item-list
+                  .avatar
+                    img.avatar-img.rounded-circle(src='../assets/img/jm_denis.jpg' alt='...')
+                  .info-user.ml-3
+                    .username Jimmy Denis
+                    .status Graphic Designer
+                  button.btn.btn-icon.btn-primary.btn-round.btn-xs
+                    i.fa.fa-plus
+        .col-md-4
+          .card.card-primary.bg-primary-gradient
+            .card-body
+              h4.mt-3.b-b1.pb-2.mb-4.fw-bold Active user right now
+              h1.mb-4.fw-bold 17
+              h4.mt-3.b-b1.pb-2.mb-5.fw-bold Page view per minutes
+              #activeUsersChart
+              h4.mt-5.pb-3.mb-0.fw-bold Top active pages
+              ul.list-unstyled
+                li.d-flex.justify-content-between.pb-1.pt-1
+                  small /product/readypro/index.html
+                  span 7
+                li.d-flex.justify-content-between.pb-1.pt-1
+                  small /product/atlantis/demo.html
+                  span 10
+      .row
+        .col-md-6
+          .card.full-height
+            .card-header
+              .card-title Feed Activity
+            .card-body
+              ol.activity-feed
+                li.feed-item.feed-item-secondary
+                  time.date(datetime='9-25') Sep 25
+                  span.text
+                    | Responded to need
+                    a(href='index.html#') &quot;Volunteer opportunity&quot;
+                li.feed-item.feed-item-success
+                  time.date(datetime='9-24') Sep 24
+                  span.text
+                    | Added an interest
+                    a(href='index.html#') &quot;Volunteer Activities&quot;
+                li.feed-item.feed-item-info
+                  time.date(datetime='9-23') Sep 23
+                  span.text
+                    | Joined the group
+                    a(href='https://themekita.com/demo-atlantis-lite-bootstrap/livepreview/examples/demo1/single-group.php') &quot;Boardsmanship Forum&quot;
+                li.feed-item.feed-item-warning
+                  time.date(datetime='9-21') Sep 21
+                  span.text
+                    | Responded to need
+                    a(href='index.html#') &quot;In-Kind Opportunity&quot;
+                li.feed-item.feed-item-danger
+                  time.date(datetime='9-18') Sep 18
+                  span.text
+                    | Created need
+                    a(href='index.html#') &quot;Volunteer Opportunity&quot;
+                li.feed-item
+                  time.date(datetime='9-17') Sep 17
+                  span.text
+                    | Attending the event
+                    a(href='https://themekita.com/demo-atlantis-lite-bootstrap/livepreview/examples/demo1/single-event.php') &quot;Some New Event&quot;
+        .col-md-6
+          .card.full-height
+            .card-header
+              .card-head-row
+                .card-title Support Tickets
+                .card-tools
+                  ul#pills-tab.nav.nav-pills.nav-secondary.nav-pills-no-bd.nav-sm(role='tablist')
+                    li.nav-item
+                      a#pills-today.nav-link(data-toggle='pill' href='index.html#pills-today' role='tab' aria-selected='true') Today
+                    li.nav-item
+                      a#pills-week.nav-link.active(data-toggle='pill' href='index.html#pills-week' role='tab' aria-selected='false') Week
+                    li.nav-item
+                      a#pills-month.nav-link(data-toggle='pill' href='index.html#pills-month' role='tab' aria-selected='false') Month
+            .card-body
+              .d-flex
+                .avatar.avatar-online
+                  span.avatar-title.rounded-circle.border.border-white.bg-info J
+                .flex-1.ml-3.pt-1
+                  h6.text-uppercase.fw-bold.mb-1
+                    | Joko Subianto
+                    span.text-warning.pl-3 pending
+                  span.text-muted I am facing some trouble with my viewport. When i start my
+                .float-right.pt-1
+                  small.text-muted 8:40 PM
+              .separator-dashed
+              .d-flex
+                .avatar.avatar-offline
+                  span.avatar-title.rounded-circle.border.border-white.bg-secondary P
+                .flex-1.ml-3.pt-1
+                  h6.text-uppercase.fw-bold.mb-1
+                    | Prabowo Widodo
+                    span.text-success.pl-3 open
+                  span.text-muted I have some query regarding the license issue.
+                .float-right.pt-1
+                  small.text-muted 1 Day Ago
+              .separator-dashed
+              .d-flex
+                .avatar.avatar-away
+                  span.avatar-title.rounded-circle.border.border-white.bg-danger L
+                .flex-1.ml-3.pt-1
+                  h6.text-uppercase.fw-bold.mb-1
+                    | Lee Chong Wei
+                    span.text-muted.pl-3 closed
+                  span.text-muted Is there any update plan for RTL version near future?
+                .float-right.pt-1
+                  small.text-muted 2 Days Ago
+              .separator-dashed
+              .d-flex
+                .avatar.avatar-offline
+                  span.avatar-title.rounded-circle.border.border-white.bg-secondary P
+                .flex-1.ml-3.pt-1
+                  h6.text-uppercase.fw-bold.mb-1
+                    | Peter Parker
+                    span.text-success.pl-3 open
+                  span.text-muted I have some query regarding the license issue.
+                .float-right.pt-1
+                  small.text-muted 2 Day Ago
+              .separator-dashed
+              .d-flex
+                .avatar.avatar-away
+                  span.avatar-title.rounded-circle.border.border-white.bg-danger L
+                .flex-1.ml-3.pt-1
+                  h6.text-uppercase.fw-bold.mb-1
+                    | Logan Paul
+                    span.text-muted.pl-3 closed
+                  span.text-muted Is there any update plan for RTL version near future?
+                .float-right.pt-1
+                  small.text-muted 2 Days Ago
+  footer.footer
+    .container-fluid
+      nav.pull-left
+        ul.nav
+          li.nav-item
+            a.nav-link(href='https://www.themekita.com')
+              | ThemeKita
+          li.nav-item
+            a.nav-link(href='index.html#')
+              | Help
+          li.nav-item
+            a.nav-link(href='index.html#')
+              | Licenses
+      .copyright.ml-auto
+        | 2018, made with
+        i.fa.fa-heart.heart.text-danger
+        |  by
+        a(href='https://www.themekita.com') ThemeKita
+
+block pageScript
+  script(src='../assets/js/core/jquery.3.2.1.min.js')
+  script(src='../assets/js/core/popper.min.js')
+  script(src='../assets/js/core/bootstrap.min.js')
+  // jQuery UI
+  script(src='../assets/js/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js')
+  script(src='../assets/js/plugin/jquery-ui-touch-punch/jquery.ui.touch-punch.min.js')
+  // jQuery Scrollbar
+  script(src='../assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js')
+  // Chart JS
+  script(src='../assets/js/plugin/chart.js/chart.min.js')
+  // jQuery Sparkline
+  script(src='../assets/js/plugin/jquery.sparkline/jquery.sparkline.min.js')
+  // Chart Circle
+  script(src='../assets/js/plugin/chart-circle/circles.min.js')
+  // Datatables
+  script(src='../assets/js/plugin/datatables/datatables.min.js')
+  // Bootstrap Notify
+  script(src='../assets/js/plugin/bootstrap-notify/bootstrap-notify.min.js')
+  // jQuery Vector Maps
+  script(src='../assets/js/plugin/jqvmap/jquery.vmap.min.js')
+  script(src='../assets/js/plugin/jqvmap/maps/jquery.vmap.world.js')
+  // Sweet Alert
+  script(src='../assets/js/plugin/sweetalert/sweetalert.min.js')
+  // Atlantis JS
+  script(src='../assets/js/atlantis.min.js')
+  // Atlantis DEMO methods, don't include it in your project!
+  script(src='../assets/js/setting-demo.js')
+  script(src='../assets/js/demo.js')
+  script.
+    Circles.create({
+    id:'circles-1',
+    radius:45,
+    value:60,
+    maxValue:100,
+    width:7,
+    text: 5,
+    colors:['#f1f1f1', '#FF9E27'],
+    duration:400,
+    wrpClass:'circles-wrp',
+    textClass:'circles-text',
+    styleWrapper:true,
+    styleText:true
+    })
+    Circles.create({
+    id:'circles-2',
+    radius:45,
+    value:70,
+    maxValue:100,
+    width:7,
+    text: 36,
+    colors:['#f1f1f1', '#2BB930'],
+    duration:400,
+    wrpClass:'circles-wrp',
+    textClass:'circles-text',
+    styleWrapper:true,
+    styleText:true
+    })
+    Circles.create({
+    id:'circles-3',
+    radius:45,
+    value:40,
+    maxValue:100,
+    width:7,
+    text: 12,
+    colors:['#f1f1f1', '#F25961'],
+    duration:400,
+    wrpClass:'circles-wrp',
+    textClass:'circles-text',
+    styleWrapper:true,
+    styleText:true
+    })
+    var totalIncomeChart = document.getElementById('totalIncomeChart').getContext('2d');
+    var mytotalIncomeChart = new Chart(totalIncomeChart, {
+    type: 'bar',
+    data: {
+    labels: ["S", "M", "T", "W", "T", "F", "S", "S", "M", "T"],
+    datasets : [{
+    label: "Total Income",
+    backgroundColor: '#ff9e27',
+    borderColor: 'rgb(23, 125, 255)',
+    data: [6, 4, 9, 5, 4, 6, 4, 3, 8, 10],
+    }],
+    },
+    options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    legend: {
+    display: false,
+    },
+    scales: {
+    yAxes: [{
+    ticks: {
+    display: false //this will remove only the label
+    },
+    gridLines : {
+    drawBorder: false,
+    display : false
+    }
+    }],
+    xAxes : [ {
+    gridLines : {
+    drawBorder: false,
+    display : false
+    }
+    }]
+    },
+    }
+    });
+    $('#lineChart').sparkline([105,103,123,100,95,105,115], {
+    type: 'line',
+    height: '70',
+    width: '100%',
+    lineWidth: '2',
+    lineColor: '#ffa534',
+    fillColor: 'rgba(255, 165, 52, .14)'
+    });

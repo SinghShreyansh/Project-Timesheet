@@ -1,0 +1,62 @@
+extends layout-admin
+
+block content
+  //- p= h.dump(feeds)
+  .pcoded-content
+    .page-header.card
+      .row.align-items-end
+        .col-lg-8
+          .page-header-title
+            i.feather.icon-clipboard.bg-c-blue
+            .d-inline
+              h5 View All Deals
+              //- span lorem ipsum dolor sit amet, consectetur adipisicing elit
+        .col-lg-4
+          .page-header-breadcrumb
+            ul.breadcrumb.breadcrumb-title
+              li.breadcrumb-item
+                a(href='/admin/dashboard')
+                  i.feather.icon-home
+              li.breadcrumb-item
+                a(href='javascript:void(0)') View All Deals
+    .pcoded-inner-content
+      .main-body
+        .page-wrapper
+          .page-body
+            .row
+              .col-sm-12
+                .card
+                  .card-header
+                    h5 View All Events
+                  .card-block
+                    .table-responsive
+                      table.table.table-sm
+                        thead
+                          tr
+                            th Image
+                            th Coupon
+                            th Expiry Date
+                            th Status
+                            th Action
+                        each deal in deals
+                          tbody
+                            tr
+                              td
+                                if deal.image
+                                  .media-left.photo-table
+                                    a(href='javascript:void(0)')
+                                      img.media-object(src=`${deal.image}`)
+                                else
+                                  .media-left.photo-table
+                                    a(href='javascript:void(0)')
+                                      img.media-object.img-radius(src="/uploads/profile/user-demo.png")
+                              td #{deal.coupon ? deal.coupon : 'Not Provided'}
+                              td #{deal.expiry_date ? deal.expiry_date.toString().split(" ").slice(0, 4).join(" ") : 'Not Provided'}
+                              td
+                                if deal.status == 'active'
+                                  label.label.label-success Active
+                                else if deal.status == 'inactive'
+                                  label.label.label-danger Inactive
+                              td
+                                a(href=`/admin/deal/edit/${deal._id}`)
+                                  | Edit

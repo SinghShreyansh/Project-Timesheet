@@ -1,0 +1,104 @@
+extends layout-admin
+
+block content
+  //- p= h.dump(store)
+  .pcoded-content
+    .page-header.card
+      .row.align-items-end
+        .col-lg-8
+          .page-header-title
+            i.feather.icon-clipboard.bg-c-blue
+            .d-inline
+              h5 #{store.name}
+              //- span lorem ipsum dolor sit amet, consectetur adipisicing elit
+        .col-lg-4
+          .page-header-breadcrumb
+            ul.breadcrumb.breadcrumb-title
+              li.breadcrumb-item
+                a(href='/admin/dashboard')
+                  i.feather.icon-home
+              li.breadcrumb-item
+                a(href='javascript:void(0)') #{store.name}
+    .pcoded-inner-content
+      .main-body
+        .page-wrapper
+          .page-body
+            .row
+              .col-sm-12
+                .card
+                  .card-header
+                    h5 Information
+                  .card-block
+                    strong
+                      if store.name
+                        h5
+                          u Name
+                          |&nbsp;→ #{store.name}
+                        hr
+                      if store.description
+                        h5
+                          u Description
+                          | &nbsp;→ #{store.description}
+                        hr
+                      if store.description
+                        h5
+                          u Nearby
+                          | &nbsp;→ #{store.nearby == 0 ? 'No' : 'Yes'}
+                        hr
+                      if store.tag
+                        h5
+                          u Tag
+                          | &nbsp;→ #{store.tag.name}
+                        hr
+                      if store.contact
+                        h5
+                          u Contact
+                          | &nbsp;→ #{store.contact}
+                        hr
+                      if store.open_hr
+                        h5
+                          u Opening Hour
+                          | &nbsp;→ #{store.open_hr}
+                        hr
+                      if store.closed_hr
+                        h5
+                          u Closing Hour
+                          | &nbsp;→ #{store.closed_hr}
+                        hr
+                      if store.image
+                        h5
+                          u Display Image →
+                            .image-area
+                              img(src=`${store.image}`, alt="", width=200, height=200, style="margin-right:20px;")
+                              a.remove-image(href=`/admin/store/remove/display/image/${store._id}`, style='display: inline;') ×
+                        br
+                        //- a(href=`/admin/feed/remove/profile/image/${store._id}`)
+                        //-   button.btn.btn-success.btn-round.waves-effect.waves-light(style="margin-right: 20px;") Remove Profile Image
+                        hr
+                      if store.image_gallery
+                        each img, i in store.image_gallery
+                          h5
+                            u Store Image #{i + 1} →
+                              .image-area
+                                img(src=`${img}`, alt="", width=200, height=200, style="margin-right:20px;")
+                                a.remove-image(href=`/admin/store/remove/gallery/image/${store._id}/${i}`, style='display: inline;') ×
+                          hr
+                      if store.status == 'active'
+                        h5
+                          u Status
+                          | &nbsp;→ Active
+                      else if store.status == 'inactive'
+                        h5
+                          u Status
+                          | &nbsp;→ Inactive
+                      hr
+                      if store.location.address
+                        h5
+                          u Name
+                          |&nbsp;→ #{store.location.address}
+                if (store.nearby == 1)
+                  a(href=`/admin/store/update/nearby/${store._id}`)
+                    button.btn.btn-success.btn-round.waves-effect.waves-light(style="margin-right: 20px;") Edit #{store.name}
+                else if store.nearby == 0
+                  a(href=`/admin/store/update/${store._id}`)
+                    button.btn.btn-success.btn-round.waves-effect.waves-light(style="margin-right: 20px;") Edit #{store.name}

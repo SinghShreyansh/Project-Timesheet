@@ -1,0 +1,56 @@
+extends layout-admin
+
+include mixins/_pagination-store
+
+block content
+  .pcoded-content
+    .page-header.card
+      .row.align-items-end
+        .col-lg-8
+          .page-header-title
+            i.feather.icon-clipboard.bg-c-blue
+            .d-inline
+              h5 #{near == 1 ? "View all nearby stores" : "View all stores"}
+              //- span lorem ipsum dolor sit amet, consectetur adipisicing elit
+        .col-lg-4
+          .page-header-breadcrumb
+            ul.breadcrumb.breadcrumb-title
+              li.breadcrumb-item
+                a(href='/admin/dashboard')
+                  i.feather.icon-home
+              li.breadcrumb-item
+                a(href='javascript:void(0)') #{near == 1 ? "View all nearby stores" : "View all stores"}
+    .pcoded-inner-content
+      .main-body
+        .page-wrapper
+          .page-body
+            .row
+              .col-sm-12
+                .card
+                  .card-header
+                    h5 #{near == 1 ? "View all nearby stores" : "View all stores"}
+                  .card-block
+                    .table-responsive
+                      table.table.table-sm
+                        thead
+                          tr
+                            th Name
+                            th Tag
+                            th Status
+                            th Action
+                        each store in stores
+                          tbody
+                            tr
+                              td #{store.name}
+                              td #{store.tag.name}
+                              td
+                                if store.status == 'active'
+                                  label.label.label-success Active
+                                else if store.status == 'inactive'
+                                  label.label.label-danger Inactive
+                              td
+                                a(href=`/admin/store/view/${store._id}`)
+                                  | View
+
+            .row
+              +paginationStore(page, pages, count)

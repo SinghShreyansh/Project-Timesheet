@@ -1,0 +1,102 @@
+extends layout-admin
+
+block content
+  //- p= h.dump(feed)
+  .pcoded-content
+    .page-header.card
+      .row.align-items-end
+        .col-lg-8
+          .page-header-title
+            i.feather.icon-clipboard.bg-c-blue
+            .d-inline
+              h5 Update Banner
+              //- span lorem ipsum dolor sit amet, consectetur adipisicing elit
+        .col-lg-4
+          .page-header-breadcrumb
+            ul.breadcrumb.breadcrumb-title
+              li.breadcrumb-item
+                a(href='/admin/dashboard')
+                  i.feather.icon-home
+              li.breadcrumb-item
+                a(href='javascript:void(0)') Update Banner
+    .pcoded-inner-content
+      .main-body
+        .page-wrapper
+          .page-body
+            .row
+              .col-sm-12
+                .card
+                  .card-header
+                    h5 Update Banner
+                  .card-block
+                    form(action=`/admin/banner/edit/${banner._id}` method="POST" enctype='multipart/form-data')
+                      .card-block
+                        .form-group.row
+                          label.col-sm-2.col-form-label Select Banner Image
+                          .col-sm-10.padd
+                            input.form-control(type="file", name="image", accept="image/x-png,image/gif,image/jpeg")
+                          label.col-sm-2.col-form-label
+                          .col-sm-10.padd
+                            .radio.radiofill.radio-inline
+                              label
+                                input(type='radio' name='choose_type_1' id="internal1" value="true", checked='checked')
+                                |  Internal
+                            .radio.radiofill.radio-inline
+                              label
+                                input(type='radio', name='choose_type_1', id="external1", value="false")
+                                |  External
+                          label.col-sm-2.col-form-label
+                          .col-sm-10.padd
+                            #internal_1
+                              select.js-example-basic-single.col-sm-12(name='action_store' style="width:100%;")
+                                option(value="") -- Choose Part --
+                                optgroup(label="All Stores")
+                                  each store in stores
+                                    option(value=`${store._id}|store`) #{store.name}
+                                optgroup(label="Show tags with stores")
+                                  each tag in tags
+                                    option(value=`${tag._id}|tag`) #{tag.name}
+                                optgroup(label="Show tags for Videos")
+                                  each tag in tags
+                                    option(value=`${tag._id}|video`, id="video") #{tag.name}
+                          label.col-sm-2.col-form-label
+                          .col-sm-10.padd
+                            input.form-control#external_1(type="text", name="action_link", placeholder="Enter External Link", onkeyup='isUrlValid();')
+                            br
+                            span#message(style="font-size: 20px")
+                        if banner.image != ""
+                          .form-group.row
+                            label.col-sm-2.col-form-label Banner Preview
+                            .col-sm-10
+                              img(src=`${banner.image}`, alt="", srcset="")
+                        .form-group.row
+                          label.col-sm-2.col-form-label Status
+                          .col-sm-10
+                            select.form-control(name='status')
+                              option(value='active' selected=(banner.status == "active" ? 'selected' : null)) Active
+                              option(value='inactive' selected=(banner.status == "inactive" ? 'selected' : null)) Inactive
+                        button.btn.waves-effect.waves-light.btn-primary.btn-block(type="submit" id="submit_btn")
+                          i.icofont.icofont-user-alt-3
+                          | Submit →
+
+
+  block script
+    script(src="https://code.jquery.com/jquery-3.3.1.min.js", integrity='sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=', crossorigin='anonymous')
+    script(src="/admin/custom/update-home.js")
+
+  script.
+    var isUrlValid = function () {
+      var userInput = document.getElementById("external_1").value;
+      var res = userInput.match(/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g);
+      if (res == null) {
+        document.getElementById('message').style.color = 'red';
+        document.getElementById('message').innerHTML = 'Not a Valid URL';
+        document.getElementById("submit_btn").disabled = true;
+      } else {
+        document.getElementById('message').style.display = 'none';
+        document.getElementById("submit_btn").disabled = false;
+      }
+    };
+    var bannerObj = !{JSON.stringify(banner)}
+    var storesObj = !{JSON.stringify(stores)}
+    var tagsObj = !{JSON.stringify(tags)}

@@ -1,0 +1,75 @@
+extends layout-admin
+
+include mixins/_pagination_feed
+
+block content
+  //- p= h.dump(feeds)
+  .pcoded-content
+    .page-header.card
+      .row.align-items-end
+        .col-lg-8
+          .page-header-title
+            i.feather.icon-clipboard.bg-c-blue
+            .d-inline
+              h5 View All Feeds
+              //- span lorem ipsum dolor sit amet, consectetur adipisicing elit
+        .col-lg-4
+          .page-header-breadcrumb
+            ul.breadcrumb.breadcrumb-title
+              li.breadcrumb-item
+                a(href='/admin/dashboard')
+                  i.feather.icon-home
+              li.breadcrumb-item
+                a(href='javascript:void(0)') View All Feeds
+    .pcoded-inner-content
+      .main-body
+        .page-wrapper
+          .page-body
+            .row
+              .col-sm-12
+                .card
+                  .card-header
+                    h5 View All Feeds
+                  .card-block
+                    .table-responsive
+                      table.table.table-sm
+                        thead
+                          tr
+                            th Name
+                            th Profile
+                            th Feed
+                            th Status
+                            th Action
+                        each feed in feeds
+                          tbody
+                            tr
+                              td #{feed.name}
+                              td
+                                if feed.profile_img
+                                  .media-left.photo-table
+                                    a(href='javascript:void(0)')
+                                      img.media-object.img-radius(src=`/uploads/profile/${feed.profile_img}`, alt=`${feed.profile_img}`)
+                                else
+                                  .media-left.photo-table
+                                    a(href='javascript:void(0)')
+                                      img.media-object.img-radius(src="/uploads/profile/user-demo.png")
+                              td
+                                if feed.feed_img
+                                  .media-left.photo-table
+                                    a(href='javascript:void(0)')
+                                      img.media-object.img-radius(src=`/uploads/feed/${feed.feed_img}`, alt=`${feed.feed_img}`)
+                                else
+                                  .media-left.photo-table
+                                    a(href='javascript:void(0)')
+                                      img.media-object.img-radius(src="/uploads/feed/user-demo.png")
+                              td
+                                if feed.status == 'active'
+                                  label.label.label-success Active
+                                else if feed.status == 'inactive'
+                                  label.label.label-danger Inactive
+                              td
+                                a(href=`/admin/feed/view/${feed._id}`)
+                                  | View
+
+            .row
+              +paginationFeed(page, pages, count)

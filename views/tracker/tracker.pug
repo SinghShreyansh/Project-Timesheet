@@ -1,0 +1,453 @@
+extends ../layout-admin/layout-admin
+
+block extraHeadLink
+      link(href='https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css' rel='stylesheet')
+
+
+block dashboardSidebar
+          li.nav-item
+              a(href='/account/dashboard')
+                p Dashboard
+          li.nav-section
+            span.sidebar-mini-icon
+              i.fa.fa-ellipsis-h
+            h4.text-section Components
+          block userSidebar
+          li.nav-item
+              a(href='/account/user')
+               p Users
+          block addUserSidebar
+          li.nav-item
+              a(href='/account/adduser')
+               p Add User
+          block projectSidebar
+          li.nav-item
+              a(href='/account/project')
+               p Projects
+          block addProjectSidebar
+          li.nav-item
+              a(href='/account/addproject')
+               p Add Project
+          block addAssignProjectSidebar
+          li.nav-item
+              a(href='/account/add_assign_project')
+                p Assign Project
+          block tracker
+          li.nav-item.active
+              a(href='/account/tracker')
+                p Tracker
+          block timesheet
+          li.nav-item
+              a(href='/account/timesheet')
+                p Timesheet
+
+
+block content
+  .main-panel
+    .content
+      .page-inner
+        .page-header
+          h4.page-title Projects
+          ul.breadcrumbs
+            li.nav-home
+              a(href='datatables.html#')
+                i.flaticon-home
+            li.separator
+              i.flaticon-right-arrow
+            li.nav-item
+              a(href='datatables.html#') Tables
+            li.separator
+              i.flaticon-right-arrow
+            li.nav-item
+              a(href='datatables.html#') Datatables
+        .row
+          .col-md-12
+            .card
+              .card-header.d-flex.flex-wrap
+                h4.card-title Projects Data
+                input#trackerDate(type='date' onchange=`getSelectDateTracker(event)`  max=TodayDate style='margin-left:8%')
+                button#trackerDateToday.btn.btn-primary(style='margin-left:2%;display:none' onclick=`getTodayTracker()`) Today
+                p#curr_user(style='display:none;') #{session.user._id}
+              .card-header#trackerProjectDropdownHeader
+                  .row
+                     .col-md-12.col-lg-12.d-flex.flex-row.justify-content-between.align-items-center.flex-wrap
+                            .trackerProjectDropdown.col-md-12.col-lg-12.d-flex.flex-column.justify-content-around(style='flex:1;')
+                                    label(for='assignProjectname') Select Project
+                                    select#assignProjectname.form-control.trackerMultipleProjectSelect.autofocus(name="allotedProject" multiple='multiple' style='width:95%' )
+                                     each data in Allotedproject
+                                       if TrackerIsOnArr.length
+                                          each name in TrackerIsOnArr
+                                            if(data.project_id.name==name)
+                                              option(value=data.project_id._id selected) #{data.project_id.name}
+                                              break
+                                            else
+                                              option(value=data.project_id._id) #{data.project_id.name}
+                                       else
+                                           option(value=data.project_id._id) #{data.project_id.name}
+
+                            .trackerTimerComponent.d-flex.flex-row.justify-content-around(style='flex:0.3;')
+                                .trackerProjectTimer.d-flex.flex-column.justify-content-around
+                                        label(for='trackerTimer') Timer
+                                        #trackerTimer(style='font-size:20px;' value=TrackerIsOnOrOff ) #{TotalTrackerUserHour}
+
+                                if TrackerIsOnOrOff
+                                  button#trackerTimerStopBtn.btn.btn-danger.btn-round(style='width:50%;height:80%;margin-top:10px;display:block' onclick=`stopTimer()`) Stop
+                                else
+                                  button#trackerTimerStartBtn.btn.btn-primary.btn-round(style='width:50%;height:80%;margin-top:10px;text-align:center' onclick=`startTimer()`) Start
+
+              .card-body#trackerDataTable
+                .table-responsive
+                  table#basic-datatable.display.table.table-striped.table-hover
+                    thead
+                      tr
+                        th Project Name
+                        th Start time
+                        th Working Hours
+                    tfoot
+                      tr
+                        th Project Name
+                        th Start time
+                        th Working Hours
+                    tbody
+                      each data in TrackerProj
+                        tr
+                          td #{data.project_id.name}
+                          td #{data.start_time.toLocaleString()}
+                          - var time = data.hours.split(':')
+                          - var newTime = (+time[0])=='0'?((+time[1])=='0'?(+time[2])+" secs":(+time[1])+" mins "+(+time[2])+" secs"):((+time[1])=='0'?(+time[0])+"hours ":(+time[0])+"hours "+(+time[1])+" mins")
+                            td
+                              .d-flex.flex-row.justify-content-center.align-items-center
+                               .eachtime  #{newTime}
+                               a.btn.btn-link.btn-danger(type='button' data-toggle='tooltip' title='' style='margin-left:50%' data-original-title='Edit' onclick=`EditCurrHour(this.getAttribute("value"))` value=data._id)
+                                   i.fa.fa-edit
+
+    footer.footer
+      .container-fluid
+        nav.pull-left
+          ul.nav
+            li.nav-item
+              a.nav-link(href='https://www.themekita.com')
+                | ThemeKita
+            li.nav-item
+              a.nav-link(href='index.html#')
+                | Help
+            li.nav-item
+              a.nav-link(href='index.html#')
+                | Licenses
+        .copyright.ml-auto
+          | 2018, made with
+          i.fa.fa-heart.heart.text-danger
+          |  by
+          a(href='https://www.themekita.com') ThemeKita
+
+
+block pageScript
+    script(src='/assets/js/core/jquery.3.2.1.min.js')
+    script(src='/assets/js/core/popper.min.js')
+    script(src='/assets/js/core/bootstrap.min.js')
+    // jQuery UI
+    script(src='/assets/js/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js')
+    script(src='/assets/js/plugin/jquery-ui-touch-punch/jquery.ui.touch-punch.min.js')
+    // jQuery Scrollbar
+    script(src='/assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js')
+    // Datatables
+    script(src='/assets/js/plugin/datatables/datatables.min.js')
+    // Atlantis JS
+    script(src='/assets/js/atlantis.min.js')
+    // Atlantis DEMO methods, don't include it in your project!
+    script(src='/assets/js/setting-demo2.js')
+    script(src='https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js')
+    // SweetAlert
+    script(src='https://cdn.jsdelivr.net/npm/sweetalert2@11.4.17/dist/sweetalert2.all.min.js')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js')
+    script.
+        $(document).ready(function() {
+        $('#basic-datatable').DataTable({
+        });
+        document.getElementById('assignProjectname').focus();
+
+         if(document.getElementById("trackerTimer").getAttribute('value')=="on"){
+            var ele = document.getElementById("trackerTimer");
+            var title = document.getElementById("appTitle");
+            let a = ele.innerHTML.split(':')
+            var hours = ((+a[0])*1=='00'?0:(+a[0])*1);
+            var mins = ((+a[1])*1=='00'?0:(+a[1])*1);
+            var secs = ((+a[2])*1=='00'?1:(+a[2])*1);
+
+            function countDown() {
+              if (hours || secs || mins) {
+                setTimeout(countDown, 1000); // Should be 1000, but I'm impatient
+              }
+              ele.innerHTML = (hours.toString().length < 2 ? "0" + hours : hours)+ ":" +(mins.toString().length < 2 ? "0" + mins : mins) + ":" + (secs.toString().length < 2 ? "0" + secs : secs); // Pad number
+
+              title.innerHTML = (hours.toString().length < 2 ? "0" + hours : hours)+ ":" +(mins.toString().length < 2 ? "0" + mins : mins) + ":" + (secs.toString().length < 2 ? "0" + secs : secs); // Pad number
+              secs += 1;
+              if (secs > 59) {
+                mins += 1;
+                secs = 0;
+              }
+              if (mins > 59) {
+                hours += 1;
+                mins = 0;
+              }
+             }
+
+              countDown();
+        }
+        });
+
+        function getSelectDateTracker(e){
+         let date = e.target.value;
+          if(date){
+            var employee = document.getElementById("curr_user").innerHTML ;
+            $.ajax({
+                type: "POST",
+                url: "/account/getSelectDateTracker",
+                data:  {'employee_id':employee,'day':date},
+                cache: false,
+                success: function(data){
+
+                  if(data.type==='success'){
+                    $('#basic-datatable').DataTable().destroy();
+                    let k=0;
+                    var idData=data.idData;
+
+                    var myTable =$('#basic-datatable').DataTable({
+                      data: data.data,
+
+                      columnDefs: [{
+                          "targets":2,
+                          "render": function(data, type, full, meta) {
+                                        return '<div class="d-flex flex-row justify-content-center align-items-center"><div class="eachtime">'+data+'</div><a class="btn btn-link btn-danger" type="button" data-toggle="tooltip" title="" style="margin-left:50%" data-original-title="Edit" onclick="EditCurrHour(this.getAttribute(&quot;value&quot;))" value='+idData[k++]+'><i class="fa fa-edit"></i></a></div>';
+                                }
+                      }]
+                    })
+                  if(!data.currDate){
+                    $("#trackerDateToday").css('display','block');
+                    $("#trackerProjectDropdownHeader").css('display','none');
+                  }else{
+                    $("#trackerDateToday").css('display','none');
+                    $("#trackerProjectDropdownHeader").css('display','block');
+                  }
+                  }else{
+                    alert("Failed to Get Tracker")
+                  }
+                }
+            })
+          }
+        }
+
+        function getTodayTracker(){
+              var employee = document.getElementById("curr_user").innerHTML ;
+              $.ajax({
+                  type: "POST",
+                  url: "/account/getSelectDateTracker",
+                  data:  {'employee_id':employee,'day':"today"},
+                  cache: false,
+                  success: function(data){
+
+                    if(data.type==='success'){
+
+                      $('#basic-datatable').DataTable().destroy();
+                       let k=0;
+                       var idData=data.idData;
+
+                      $('#basic-datatable').DataTable({
+                        data: data.data,
+                        columnDefs: [{
+                            "targets":2,
+                            "render": function(data, type, full, meta) {
+                                        return '<div class="d-flex flex-row justify-content-center align-items-center"><div class="eachtime">'+data+'</div><a class="btn btn-link btn-danger" type="button" data-toggle="tooltip" title="" style="margin-left:50%" data-original-title="Edit" onclick="EditCurrHour(this.getAttribute(&quot;value&quot;))" value='+idData[k++]+'><i class="fa fa-edit"></i></a></div>';
+                                }
+                          }]
+                      })
+                      $('#trackerDate').val(new Date().toISOString().substring(0, 10))
+                    if(!data.currDate){
+                      $("#trackerDateToday").css('display','block');
+                      $("#trackerProjectDropdownHeader").css('display','none');
+                    }else{
+                      $("#trackerDateToday").css('display','none');
+                      $("#trackerProjectDropdownHeader").css('display','block');
+
+                    }
+                    }else{
+                      alert("Failed to Get Tracker")
+                    }
+                  }
+              })
+        }
+
+        function startTimer(){
+            var employee_id = document.getElementById('curr_user').innerHTML ;
+            var project_id = document.getElementById('assignProjectname').value;
+            var start_time = new Date();
+            var selectedProject = document.getElementById('assignProjectname');
+            var selected = [...selectedProject.options]
+                            .filter(option => option.selected)
+                            .map(option => option.value);
+            if(selected.length==0)return Alert()
+
+                                $.ajax({
+                                    type: "POST",
+                                    url: "/account/start_tracker",
+                                    data:  {'employee_id':employee_id,'project_id':selected},
+                                    cache: false,
+                                    success: function(data){
+                                      if(data.type==='success'){
+                                        location.reload()
+
+                                      }else{
+                                        alert("Failed to start timer")
+                                      }
+
+                                    }
+
+                                });
+        }
+
+        function stopTimer(){
+            var employee_id = document.getElementById('curr_user').innerHTML ;
+            var project_id = document.getElementById('assignProjectname').value;
+            var start_time = new Date();
+            var selectedProject = document.getElementById('assignProjectname');
+            var selected = [...selectedProject.options]
+                            .filter(option => option.selected)
+                            .map(option => option.value);
+
+                                $.ajax({
+                                    type: "POST",
+                                    url: "/account/stop_tracker",
+                                    data:  {'employee_id':employee_id,'project_id':selected},
+                                    cache: false,
+                                    success: function(data){
+                                      if(data.type==='success'){
+                                        location.reload();
+                                      }else{
+                                        alert("Failed to start timer")
+                                      }
+                                    }
+                                });
+        }
+
+        $(".trackerMultipleProjectSelect").select2({
+                multiple: "multiple",
+                })
+
+        function Alert(){
+            var SweetAlert2Demo2 = function() {
+                  //== Demos
+                  var initDemos = function() {
+                      Swal.fire({
+                                icon: 'error',
+                                text: 'Select Atleast 1 Project',
+                              })
+                  };
+                  return {
+                      //== Init
+                      init: function() {
+                      initDemos();
+                      },
+                  };
+              }();
+
+
+                 //== Class Initialization
+              jQuery(document).ready(function() {
+                  SweetAlert2Demo2.init();
+              });
+          }
+
+        function EditCurrHour(trackerId){
+             var SweetAlert2Demo = function() {
+                  //== Demos
+                  var initDemos = function() {
+
+                      Swal.fire({
+                          title: 'Enter Time \n in HH:MM:SS format',
+                          input: 'text',
+                          inputAttributes: {
+                            autocapitalize: 'off',
+                            id:'popupEditHour',
+                          },
+                          inputValue:'HH:MM:SS',
+                          inputValidator: (value) => {
+                              if (!value) {
+                                return 'You need to write something!'
+                              }
+                          },
+                          showCancelButton: true,
+                          confirmButtonText: 'Change Time ',
+
+                        }).then((result) => {
+                          if (result.isConfirmed) {
+                           // getting entered time
+                            var newTime= $('#popupEditHour').val();
+                            var a = newTime.split(':')
+
+                            //checking format HH:MM:SS
+                            if(newTime.replace(/[^:]/g, "").length!=2 || isNaN(parseInt(a[0])) || isNaN(parseInt(a[1])) || isNaN(parseInt(a[2])) ){
+                              Swal.fire({ icon:'error',text: `Time should be \n in HH:MM:SS format`})
+                              return;
+                            }
+
+                            // checking hour
+                            if(a[0].length==1){
+                              Swal.fire({ icon:'error',text: `Hour should of format HH`})
+                              return;
+                            }else if(parseInt(a[0])>23 || parseInt(a[0])<0 ){
+                               Swal.fire({ icon:'error',text: `Hour should be between 0-23`})
+                               return;
+                            }
+                            // checking minutes
+                            if(a[1].length==1){
+                              Swal.fire({ icon:'error',text: `Minutes should of format MM`})
+                              return;
+                            }else if(parseInt(a[1])>59 || parseInt(a[1])<0){
+                               Swal.fire({ icon:'error',text: `Minutes should be between 0-59`})
+                               return;
+                            }
+                            //checking seconds
+                            if(a[2].length==1){
+                              Swal.fire({ icon:'error',text: `Seconds should of format SS`})
+                              return;
+                            }else if(parseInt(a[2])>59 || parseInt(a[2])<0){
+                               Swal.fire({ icon:'error',text: `Seconds should be between 0-59`})
+                               return;
+                            }
+                             //ajax call
+                            $.ajax({
+                                    type: "POST",
+                                    url: "/account/tracker/edithour",
+                                    data:  {project_id : trackerId , hours : $('#popupEditHour').val() },
+                                    cache: false,
+                                    success: function(result){
+                                       if(result.type==='success'){
+                                                    Swal.fire({
+                                                      icon:"success",
+                                                      title: `Time changed`,
+                                                    })
+                                                    location.reload();
+                                                }else{
+                                                      Swal.fire({
+                                                      icon:"error",
+                                                      title: `Error : Hour not changed`,
+                                                    })
+                                                }
+                                    }
+                                  });
+                          }
+                        })
+                  };
+                  return {
+                      //== Init
+                      init: function() {
+                      initDemos();
+                      },
+                  };
+              }();
+                 //== Class Initialization
+              jQuery(document).ready(function() {
+                  SweetAlert2Demo.init();
+              });
+        }
+

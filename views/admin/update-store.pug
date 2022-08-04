@@ -1,0 +1,157 @@
+extends layout-admin
+
+block content
+    //- p= h.dump(store)
+    //- p= h.dump(tags)
+    .pcoded-content
+      .page-header.card
+        .row.align-items-end
+          .col-lg-8
+            .page-header-title
+              i.feather.icon-clipboard.bg-c-blue
+              .d-inline
+                h5 Update Store
+                //- span lorem ipsum dolor sit amet, consectetur adipisicing elit
+          .col-lg-4
+            .page-header-breadcrumb
+              ul.breadcrumb.breadcrumb-title
+                li.breadcrumb-item
+                  a(href='/admin/dashboard')
+                    i.feather.icon-home
+                li.breadcrumb-item
+                  a(href='javascript:void(0)') Update Store
+      .pcoded-inner-content
+        .main-body
+          .page-wrapper
+            .page-body
+              .row
+                .col-sm-12
+                  .card
+                    .card-header
+                      h5 Update Feed
+                    .card-block
+                      form(action=`/admin/store/update/${store._id}` method="POST" enctype="multipart/form-data")
+                        .form-group.row
+                          label.col-sm-2.col-form-label Name
+                          .col-sm-10
+                            input.form-control(type='text' name="name" value=store.name required)
+                        .form-group.row
+                          label.col-sm-2.col-form-label Description
+                          .col-sm-10
+                            textarea.form-control(type='text' name="description" cols="30" rows="6")=store.description
+                        .form-group.row
+                          label.col-sm-2.col-form-label Tag
+                          .col-sm-10
+                            select.js-example-basic-single-store-tag.form-control(name='tag')
+                              option(value="") --- Choose Tag ---
+                              each tag in tags
+                                option(value=tag._id selected=(tag._id.toString() == store.tag._id.toString())) #{tag.name}
+                        .form-group.row
+                          label.col-sm-2.col-form-label Display Image
+                          .col-sm-10
+                            input.form-control(type='file' name="image" accept="image/x-png,image/gif,image/jpeg")
+                        .form-group.row
+                          label.col-sm-2.col-form-label Gallery Image
+                          .col-sm-10
+                            input.form-control(type='file' name="image_gallery" accept="image/x-png,image/gif,image/jpeg" multiple)
+                        input.form-control(type='hidden' id="longitude" name="location[coordinates][0]", value=(store.location && store.location.coordinates[0]))
+                        input.form-control(type='hidden' id="latitude" name="location[coordinates][1]", value=(store.location && store.location.coordinates[1]))
+                        .form-group.row
+                          //- Address
+                          label.col-sm-2.col-form-label Address
+                          .col-sm-10
+                            input.form-control(type='text' id="address" name="location[address]", value=(store.location && store.location.address) required)
+                        .col-md-12
+                          div#myMap(style="height: 400px; margin-top:30px; display:none")
+                        .form-group.row#contact
+                          label.col-sm-2.col-form-label Contact
+                          .col-sm-10
+                            input.form-control(type='text' name="contact" value=store.contact)
+                        .form-group.row
+                          label.col-sm-2.col-form-label FB Link
+                          .col-sm-10
+                            input.form-control#link_fb(type='text' name="fb_link" value=store.fb_link onkeyup='isUrlValidFB();')
+                            br
+                            span#messagefb(style="font-size: 20px")
+                        .form-group.row
+                          label.col-sm-2.col-form-label Instagram Link
+                          .col-sm-10
+                            input.form-control#link_insta(type='text' name="insta_link" value=store.insta_link onkeyup='isUrlValidInsta();')
+                            br
+                            span#messageinsta(style="font-size: 20px")
+                        .form-group.row
+                          label.col-sm-2.col-form-label Web Link
+                          .col-sm-10
+                            input.form-control#link_web(type='text' name="web_link" value=store.web_link onkeyup='isUrlValidWeb();')
+                            br
+                            span#messageweb(style="font-size: 20px")
+                        .form-group.row
+                          label.col-sm-2.col-form-label Age Limit
+                          .col-sm-10
+                            input.form-control(type='text' name="age_limit" value=store.age_limit placeholder="21 Above")
+                        .form-group.row
+                          label.col-sm-2.col-form-label Day
+                          .col-sm-10
+                            input.form-control(type='text' name="day" value=store.day placeholder="Tue - Sat")
+                        .form-group.row#open_hr
+                          label.col-sm-2.col-form-label Open Hour
+                          .col-sm-10.padd
+                            input.form-control.flatplace.flatpickr-input(type="text", name="open_hr", value=store.open_hr, data-id='datetime', placeholder="Select time", required)
+                        .form-group.row#close_hr
+                          label.col-sm-2.col-form-label Closed Hour
+                          .col-sm-10.padd
+                            input.form-control.flatplace.flatpickr-input(type="text", name="closed_hr", value=store.closed_hr data-id='datetime', placeholder="Select time", required)
+                        .form-group.row
+                          label.col-sm-2.col-form-label Enable Offer
+                          .col-sm-10
+                            select.form-control(name='offer')
+                              option(value=1 selected=(store.offer == 1 ? 'selected' : null)) Yes
+                              option(value=0 selected=(store.offer == 0 ? 'selected' : null)) No
+                        .form-group.row
+                          label.col-sm-2.col-form-label Select Type
+                          .col-sm-10
+                            select.form-control(name='type')
+                              option(value='none' selected=(store.type == 'none' ? 'selected' : null)) None
+                              option(value='justin' selected=(store.type == 'justin' ? 'selected' : null)) Just In
+                              option(value='featured' selected=(store.type == 'featured' ? 'selected' : null)) Featured
+                              option(value='deals' selected=(store.type == 'deals' ? 'selected' : null)) Deals
+                              option(value='fav' selected=(store.type == 'fav' ? 'selected' : null)) Favourites
+                        .form-group.row
+                          label.col-sm-2.col-form-label Status
+                          .col-sm-10
+                            select.form-control(name='status')
+                              if store.status == 'active'
+                                option(value='active' selected) Active
+                                option(value='inactive') Inactive
+                              else if store.status == 'inactive'
+                                option(value='active') Active
+                                option(value='inactive' selected) Inactive
+                        button.btn.waves-effect.waves-light.btn-primary.btn-block(type="submit")
+                          i.icofont.icofont-user-alt-3
+                          | Submit →
+
+
+    block script
+      script(src="https://code.jquery.com/jquery-3.3.1.min.js", integrity='sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=', crossorigin='anonymous')
+      script(src='https://cdn.jsdelivr.net/npm/flatpickr')
+      script(src="/admin/javascript/map.js")
+    script.
+      var flatpickrOpt = {
+        enableTime: true,
+        noCalendar: true,
+        dateFormat: "H:i",
+        time_24hr: false
+      };
+
+      $( '.flatplace' ).flatpickr(flatpickrOpt);
+
+      $(document).ready(function() {
+        $('.fileinput').change(function() {
+          if (this.files.length > 7) {
+            alert('Not more than 7 images');
+            $('.fileinput').val('');
+          }
+        });
+      });
+      var addressInput = document.getElementById('address');
+      var autocomplete = new google.maps.places.Autocomplete(addressInput);

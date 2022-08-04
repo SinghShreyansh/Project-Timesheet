@@ -1,0 +1,103 @@
+//- doctype html
+//- html
+//-   head
+//-     meta(charset='utf-8')
+//-     title= `${title} | Powai Live`
+//-     meta(name="viewport" content="width=device-width, initial-scale=1")
+//-     meta(http-equiv='X-UA-Compatible', content='IE=edge')
+//-     //- App favicon
+//-     link(rel='icon', href='/admin/assets/images/Logo.png', type='image/x-icon')
+//-     link(href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800' rel='stylesheet')
+//-     link(href='https://fonts.googleapis.com/css?family=Quicksand:500,700', rel='stylesheet')
+//-     link(rel='stylesheet', type='text/css', href='/admin/bower_components/bootstrap/css/bootstrap.min.css')
+//-     link(rel='stylesheet', type='text/css', href='/admin/assets/css/custom.css')
+//-     link(rel='stylesheet', type='text/css', href='/admin/assets/icon/feather/css/feather.css')
+//-     link(rel='stylesheet', type='text/css', href='/admin/assets/css/style.css')
+//-     link(rel='stylesheet', type='text/css', href='/admin/assets/css/pages.css')
+//-     link(rel='stylesheet', href='/admin/assets/css/loading.css')
+//-     link(rel='stylesheet', href='/admin/assets/css/loading-btn.css')
+
+//-   block messages
+//-     #wrapper
+//-       .card.logoutt
+//-         if locals.flashes
+//-           .inner
+//-             .flash-messages
+//-               - const categories = Object.keys(locals.flashes)
+//-               each category in categories
+//-                 each message in flashes[category]
+//-                   .flash(class=`flash--${category}`)
+//-                     p.flash__text!= message
+//-                     button.flash__remove(onClick="this.parentElement.remove()") &times;
+
+//-   body(themebg-pattern='theme1')
+//-     block header
+//-       .theme-loader
+//-         .loader-track
+//-           .preloader-wrapper
+//-             .spinner-layer.spinner-blue
+//-               .circle-clipper.left
+//-                 .circle
+//-               .gap-patch
+//-                 .circle
+//-               .circle-clipper.right
+//-                 .circle
+//-             .spinner-layer.spinner-red
+//-               .circle-clipper.left
+//-                 .circle
+//-               .gap-patch
+//-                 .circle
+//-               .circle-clipper.right
+//-                 .circle
+//-             .spinner-layer.spinner-yellow
+//-               .circle-clipper.left
+//-                 .circle
+//-               .gap-patch
+//-                 .circle
+//-               .circle-clipper.right
+//-                 .circle
+//-             .spinner-layer.spinner-green
+//-               .circle-clipper.left
+//-                 .circle
+//-               .gap-patch
+//-                 .circle
+//-               .circle-clipper.right
+//-                 .circle
+//-       section.login-block
+//-         .container-fluid
+//-           .row
+//-             .col-sm-12
+//-               form#login_form_reset.md-float-material.form-material(action="/admin/login" method="POST")
+//-                 .text-center
+//-                   img(src='/admin/assets/images/logo.png', alt='logo.png' width="100" style="border-radius:50px")
+//-                 .auth-box.card
+//-                   .card-block
+//-                     .row.m-b-20
+//-                       .col-md-12
+//-                         h3.text-center.txt-primary Welcome Admin
+//-                     p.text-muted.text-center.p-b-5 Sign in with your admin account
+//-                     .form-group.form-primary
+//-                       input#login_email.form-control(type='email', name='email', required='')
+//-                       span.form-bar
+//-                       label.float-label Email Address
+//-                     .form-group.form-primary
+//-                       input#login_password.form-control(type='password', name='password', required='')
+//-                       span.form-bar
+//-                       label.float-label Password
+//-                     .row.m-t-30
+//-                       .col-md-12
+//-                         button.btn.btn-primary.btn-md.btn-block.waves-effect.text-center.m-b-20(type='submit')
+//-                           | LOGIN
+
+//-     block scripts
+//-       script(type='text/javascript', src='/admin/bower_components/jquery/js/jquery.min.js')
+//-       script(type='text/javascript', src='/admin/bower_components/jquery-ui/js/jquery-ui.min.js')
+//-       script(type='text/javascript', src='/admin/bower_components/popper.js/js/popper.min.js')
+//-       script(type='text/javascript', src='/admin/bower_components/bootstrap/js/bootstrap.min.js')
+//-       script(src='/admin/assets/pages/waves/js/waves.min.js')
+//-       script(type='text/javascript', src='/admin/bower_components/jquery-slimscroll/js/jquery.slimscroll.js')
+//-       script(type='text/javascript', src='/admin/bower_components/modernizr/js/modernizr.js')
+//-       script(type='text/javascript', src='/admin/bower_components/modernizr/js/css-scrollbars.js')
+//-       script(type='text/javascript', src='/admin/assets/js/common-pages.js')
+
+//-     script.

@@ -1,0 +1,83 @@
+extends layout-admin
+
+block content
+  .pcoded-content
+    .page-header.card
+      .row.align-items-end
+        .col-lg-8
+          .page-header-title
+            i.feather.icon-clipboard.bg-c-blue
+            .d-inline
+              h5 Manage Home Banner
+        .col-lg-4
+          .page-header-breadcrumb
+            ul.breadcrumb.breadcrumb-title
+              li.breadcrumb-item
+                a(href='/admin/dashboard')
+                  i.feather.icon-home
+              li.breadcrumb-item
+                a(href='javascript:void(0)') Manage Home Banner
+    .pcoded-inner-content
+      .main-body
+        .page-wrapper
+          .page-body
+            .row
+              .col-sm-12
+                form(action='/admin/banner/add' method="POST" enctype='multipart/form-data')
+                  .card
+                    .card-header
+                      h5 Home Screen
+                    .card-block
+                      .form-group.row
+                        label.col-sm-2.col-form-label Select Banner Image
+                        .col-sm-10.padd
+                          input.form-control(type="file", name="image", accept="image/x-png,image/gif,image/jpeg" required)
+                        label.col-sm-2.col-form-label
+                        .col-sm-10.padd
+                          .radio.radiofill.radio-inline
+                            label
+                              input(type='radio' name='choose_type_1' id="internal1" value="true", checked='checked')
+                              |  Internal
+                          .radio.radiofill.radio-inline
+                            label
+                              input(type='radio', name='choose_type_1', id="external1", value="false")
+                              |  External
+                        label.col-sm-2.col-form-label
+                        .col-sm-10.padd
+                          #internal_1
+                            select.js-example-basic-single.col-sm-12(name='action_store')
+                              option(value="") -- Choose Part --
+                              optgroup(label="All Stores")
+                                each store in stores
+                                  option(value=`${store._id}|store`, id="store") #{store.name}
+                              optgroup(label="Show tags with stores")
+                                each tag in tags
+                                  option(value=`${tag._id}|tag`, id="tag") #{tag.name}
+                              optgroup(label="Show tags for Videos")
+                                each tag in tags
+                                  option(value=`${tag._id}|video`, id="video") #{tag.name}
+                        label.col-sm-2.col-form-label
+                        .col-sm-10.padd
+                          input.form-control#external_1(type="text", name="action_link", placeholder="Enter External Link", onkeyup='isUrlValid();')
+                          br
+                          span#message(style="font-size: 20px")
+                      button.btn.waves-effect.waves-light.btn-primary.btn-block(type="submit" id="submit_btn")
+                        i.icofont.icofont-user-alt-3
+                        | Submit →
+  block script
+    script(src="https://code.jquery.com/jquery-3.3.1.min.js", integrity='sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=', crossorigin='anonymous')
+    script(src="/admin/custom/add-home.js")
+
+  script.
+    var isUrlValid = function () {
+      var userInput = document.getElementById("external_1").value;
+      var res = userInput.match(/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g);
+      if (res == null) {
+        document.getElementById('message').style.color = 'red';
+        document.getElementById('message').innerHTML = 'Not a Valid URL';
+        document.getElementById("submit_btn").disabled = true;
+      } else {
+        document.getElementById('message').style.display = 'none';
+        document.getElementById("submit_btn").disabled = false;
+      }
+    };

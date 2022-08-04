@@ -1,0 +1,82 @@
+extends layout-admin
+
+block content
+  .pcoded-content
+    .page-header.card
+      .row.align-items-end
+        .col-lg-8
+          .page-header-title
+            i.feather.icon-clipboard.bg-c-blue
+            .d-inline
+              h5 Update Deals
+        .col-lg-4
+          .page-header-breadcrumb
+            ul.breadcrumb.breadcrumb-title
+              li.breadcrumb-item
+                a(href='/admin/dashboard')
+                  i.feather.icon-home
+              li.breadcrumb-item
+                a(href='javascript:void(0)') Update Deals
+    .pcoded-inner-content
+      .main-body
+        .page-wrapper
+          .page-body
+            .row
+              .col-sm-12
+                form(action=`/admin/deal/edit/${deal._id}` method="POST" enctype='multipart/form-data')
+                  .card
+                    .card-header
+                      h5 Add Deals
+                    .card-block
+                      .form-group.row
+                        label.col-sm-2.col-form-label Select Image
+                        .col-sm-10
+                          input.form-control(type="file", name="image", accept="image/x-png,image/gif,image/jpeg")
+                      .form-group.row
+                        label.col-sm-2.col-form-label Preview Image
+                        .col-sm-10
+                          img(src=`${deal.image}`, alt="", srcset="")
+                      .form-group.row
+                        label.col-sm-2.col-form-label Action Link
+                        .col-sm-10
+                          select.js-example-basic-single.col-sm-12(name='action_store')
+                            option(value="") -- Choose Part --
+                            optgroup(label="All Stores")
+                              each store in stores
+                                option(value=`${store._id}|store`, id="store" selected=(store._id.toString() == deal.action)) #{store.name}
+                            optgroup(label="Show tags with stores")
+                              each tag in tags
+                                option(value=`${tag._id}|tag`, id="tag" selected=(tag._id.toString() == deal.action)) #{tag.name}
+                      .form-group.row
+                        label.col-sm-2.col-form-label Coupon Code
+                        .col-sm-10
+                          input.form-control(type="text", name="coupon", value=deal.coupon, required)
+                      .form-group.row
+                        label.col-sm-2.col-form-label Expiry date
+                        .col-sm-10
+                          input.form-control.flatplace.flatpickr-input(type="text", name="expiry_date", data-id='datetime', placeholder="Select a date", required)
+                      .form-group.row
+                        label.col-sm-2.col-form-label Status
+                        .col-sm-10
+                          select.form-control(name="status")
+                            option(value="active" selected=(deal.status == "active" ? "selected" : null)) Active
+                            option(value="inactive" selected=(deal.status == "inactive" ? "selected" : null)) Inactive
+                      button.btn.waves-effect.waves-light.btn-primary.btn-block(type="submit" id="submit_btn")
+                        i.icofont.icofont-user-alt-3
+                        | Submit →
+
+  block script.
+    script(src="https://code.jquery.com/jquery-3.3.1.min.js", integrity='sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=', crossorigin='anonymous')
+    script(src='https://cdn.jsdelivr.net/npm/flatpickr')
+
+  script.
+    var dealDetail = !{JSON.stringify(deal)}
+    var dealOne = new Date(dealDetail.expiry_date);
+    var dateToString = dealOne.toISOString().split('T')[0];
+    var flatpickrOpt = {
+      altInput: true,
+      altFormat: "F j, Y",
+      dateFormat: "Y-m-d",
+      defaultDate: [dateToString]
+    };
+    $( '.flatplace' ).flatpickr(flatpickrOpt);

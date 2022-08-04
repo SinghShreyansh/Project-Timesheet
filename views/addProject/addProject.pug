@@ -1,0 +1,118 @@
+extends ../layout-admin/layout-admin
+
+block dashboardSidebar
+          li.nav-item
+              a(href='/account/dashboard')
+                p Dashboard
+          li.nav-section
+            span.sidebar-mini-icon
+              i.fa.fa-ellipsis-h
+            h4.text-section Components
+          block userSidebar
+          li.nav-item
+              a(href='/account/user')
+               p Users
+          block addUserSidebar
+          li.nav-item
+              a(href='/account/adduser')
+               p Add User
+          block projectSidebar
+          li.nav-item
+              a(href='/account/project')
+               p Projects
+          block addProjectSidebar
+          li.nav-item.active
+              a(href='/account/addproject')
+                p Add Project
+          block addAssignProjectSidebar
+          li.nav-item
+              a(href='/account/add_assign_project')
+                p Assign Project
+          block tracker
+          li.nav-item
+              a(href='/account/tracker')
+                p Tracker
+          block timesheet
+          li.nav-item
+              a(href='/account/timesheet')
+                p Timesheet
+
+
+
+
+
+
+block content
+ .main-panel
+    .container
+        .page-inner
+          .page-header
+            h4.page-title Add Projects
+            ul.breadcrumbs
+              li.nav-home
+                a(href='forms.html#')
+                i.flaticon-home
+              li.separator
+                i.flaticon-right-arrow
+              li.nav-item
+                a(href='forms.html#') Forms
+              li.separator
+                i.flaticon-right-arrow
+              li.nav-item
+                a(href='forms.html#') Basic Form
+          .row
+            .col-md-12
+              .card
+                .card-header
+                  .card-title Fill Project Data
+                .card-body
+                  .row
+                     .mx-auto.col-md-6.col-lg-4
+                       form.addUserForm(action="/account/addproject" method="POST")
+                                .form-group
+                                    label(for='addProjectname') Project Name
+                                    input#addProjectname.form-control(type='text' name='name' placeholder='Enter Projectname' required='' autocomplete="off")
+                                .form-group
+                                    label(for='addClientname') Client Name
+                                    select#addClientname.form-control.form-control(name="client_id")
+                                      each data in clientData
+                                       option(value=data._id) #{data.name}
+                                .form-group
+                                    label(for='addProjectDetail') Project Detail
+                                    textarea#addProjectDetail.form-control(name="details" rows='5' placeholder="Enter project details")
+                                button.btn.btn-primary.btn-block.mt-4(type="submit") Submit
+    footer.footer
+      .container-fluid
+        nav.pull-left
+          ul.nav
+            li.nav-item
+              a.nav-link(href='https://www.themekita.com')
+                | ThemeKita
+            li.nav-item
+              a.nav-link(href='index.html#')
+                | Help
+            li.nav-item
+              a.nav-link(href='index.html#')
+                | Licenses
+        .copyright.ml-auto
+          | 2018, made with
+          i.fa.fa-heart.heart.text-danger
+          |  by
+          a(href='https://www.themekita.com') ThemeKita
+
+
+
+
+
+
+block pageScript
+        script(src='/assets/js/core/jquery.3.2.1.min.js')
+        script(src='/assets/js/core/popper.min.js')
+        script(src='/assets/js/core/bootstrap.min.js')
+        // jQuery UI
+        script(src='/assets/js/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js')
+        script(src='/assets/js/plugin/jquery-ui-touch-punch/jquery.ui.touch-punch.min.js')
+        // jQuery Scrollbar
+        script(src='/assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js')
+        // Atlantis JS
+        script(src='/assets/js/atlantis.min.js')

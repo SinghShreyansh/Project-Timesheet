@@ -1,0 +1,196 @@
+extends layout-admin
+
+block content
+  .pcoded-content
+    .page-header.card
+      .row.align-items-end
+        .col-lg-8
+          .page-header-title
+            i.feather.icon-clipboard.bg-c-blue
+            .d-inline
+              h5 Add New Store
+        .col-lg-4
+          .page-header-breadcrumb
+            ul.breadcrumb.breadcrumb-title
+              li.breadcrumb-item
+                a(href='/admin/dashboard')
+                  i.feather.icon-home
+              li.breadcrumb-item
+                a(href='javascript:void(0)') Add New Store
+    .pcoded-inner-content
+      .main-body
+        .page-wrapper
+          .page-body
+            .row
+              .col-sm-12
+                .card
+                  .card-header
+                    h5 Add New Feed
+                  .card-block
+                    form(action='/admin/store/add' method="POST" enctype="multipart/form-data")
+                      .form-group.row
+                        label.col-sm-2.col-form-label Name
+                        .col-sm-10
+                          input.form-control(type='text' name="name" required)
+                      .form-group.row
+                        label.col-sm-2.col-form-label Description
+                        .col-sm-10
+                          textarea.form-control(type='text' name="description" cols="30" rows="6")
+                      .form-group.row
+                        label.col-sm-2.col-form-label Nearby
+                        .col-sm-10
+                          select#nearby.form-control(name='nearby')
+                            option(value=1) Yes
+                            option(value=0 selected) No
+                      .form-group.row
+                        label.col-sm-2.col-form-label Tag
+                        .col-sm-10
+                          select.js-example-basic-single-store-tag.col-sm-12(name='tag', id="sel_tag")
+                            option(value="0") --- Choose Tag ---
+                            //- each tag in tags
+                            //-   option(value=tag._id)= tag.name
+                      .form-group.row#upcoming_events
+                        label.col-sm-2.col-form-label Upcoming Events
+                        .col-sm-10
+                          textarea.form-control(type='text' name="upcoming_events" cols="30" rows="6")
+                      .form-group.row
+                        label.col-sm-2.col-form-label Display Image
+                        .col-sm-10
+                          input.form-control(type='file' name="image" accept="image/x-png,image/gif,image/jpeg")
+                      .form-group.row#image_gallery
+                        label.col-sm-2.col-form-label Gallery Image
+                        .col-sm-10
+                          input.form-control.fileinput(type='file' name="image_gallery" accept="image/x-png,image/gif,image/jpeg" multiple)
+                      input.form-control(type='hidden' id="longitude" name="location[coordinates][0]")
+                      input.form-control(type='hidden' id="latitude" name="location[coordinates][1]")
+                      .form-group.row
+                        //- Address
+                        label.col-sm-2.col-form-label Address
+                        .col-sm-10
+                          input.form-control(type='text' id="address" name="location[address]" required)
+                      .col-md-12
+                        div#myMap(style="height: 400px; margin-top:30px; display:none")
+                      .form-group.row#contact
+                        label.col-sm-2.col-form-label Contact
+                        .col-sm-10
+                          input.form-control(type='text' name="contact")
+                      .form-group.row
+                        label.col-sm-2.col-form-label FB Link
+                        .col-sm-10
+                          input.form-control#link_fb(type='text' name="fb_link" onkeyup='isUrlValidFB();')
+                          br
+                          span#messagefb(style="font-size: 20px")
+                      .form-group.row
+                        label.col-sm-2.col-form-label Instagram Link
+                        .col-sm-10
+                          input.form-control#link_insta(type='text' name="insta_link" onkeyup='isUrlValidInsta();')
+                          br
+                          span#messageinsta(style="font-size: 20px")
+                      .form-group.row
+                        label.col-sm-2.col-form-label Web Link
+                        .col-sm-10
+                          input.form-control#link_web(type='text' name="web_link" onkeyup='isUrlValidWeb();')
+                          br
+                          span#messageweb(style="font-size: 20px")
+                      .form-group.row
+                        label.col-sm-2.col-form-label Age Limit
+                        .col-sm-10
+                          input.form-control(type='text' name="age_limit" placeholder="21 Above")
+                      .form-group.row
+                        label.col-sm-2.col-form-label Day
+                        .col-sm-10
+                          input.form-control(type='text' name="day" placeholder="Tue - Sat")
+                      .form-group.row#open_hr
+                        label.col-sm-2.col-form-label Open Hour
+                        .col-sm-10.padd
+                          input.form-control.flatplace.flatpickr-input(type="text", name="open_hr", data-id='datetime', placeholder="Select time", required)
+                      .form-group.row#close_hr
+                        label.col-sm-2.col-form-label Closed Hour
+                        .col-sm-10.padd
+                          input.form-control.flatplace.flatpickr-input(type="text", name="closed_hr", data-id='datetime', placeholder="Select time", required)
+                      .form-group.row
+                        label.col-sm-2.col-form-label Enable Offer
+                        .col-sm-10
+                          select.form-control(name='offer')
+                            option(value=1) Yes
+                            option(value=0) No
+                      .form-group.row#type
+                        label.col-sm-2.col-form-label Select Type
+                        .col-sm-10
+                          select.form-control(name='type')
+                            option(value='none') None
+                            option(value='justin') Just In
+                            option(value='featured') Featured
+                            option(value='deals') Deals
+                            option(value='fav') Favourites
+                      .form-group.row
+                        label.col-sm-2.col-form-label Status
+                        .col-sm-10
+                          select.form-control(name='status')
+                            option(value='active') Active
+                            option(value='inactive') Inactive
+                      button.btn.waves-effect.waves-light.btn-primary.btn-block(type="submit")
+                        i.icofont.icofont-user-alt-3
+                        | Submit →
+
+
+  block script
+    script(src="https://code.jquery.com/jquery-3.3.1.min.js", integrity='sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=', crossorigin='anonymous')
+    script(src='https://cdn.jsdelivr.net/npm/flatpickr')
+    script(src="/admin/javascript/map.js")
+    script(src="/admin/custom/add-store.js")
+  script.
+    var flatpickrOpt = {
+      enableTime: true,
+      noCalendar: true,
+      dateFormat: "H:i",
+      time_24hr: false
+    };
+
+    $( '.flatplace' ).flatpickr(flatpickrOpt);
+
+    $(document).ready(function() {
+      $('.fileinput').change(function() {
+        if (this.files.length > 7) {
+          alert('Not more than 7 images');
+          $('.fileinput').val('');
+        }
+      });
+    });
+
+    var isUrlValidFB = function () {
+      var userInput = document.getElementById("link_fb").value;
+      var res = userInput.match(/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g);
+      if (res == null) {
+        document.getElementById('messagefb').style.color = 'red';
+        document.getElementById('messagefb').innerHTML = 'Not a Valid URL';
+        document.getElementById("submit_btn").disabled = true;
+      } else {
+        document.getElementById('messagefb').style.display = 'none';
+        document.getElementById("submit_btn").disabled = false;
+      }
+    };
+    var isUrlValidInsta = function () {
+      var userInput = document.getElementById("link_insta").value;
+      var res = userInput.match(/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g);
+      if (res == null) {
+        document.getElementById('messageinsta').style.color = 'red';
+        document.getElementById('messageinsta').innerHTML = 'Not a Valid URL';
+        document.getElementById("submit_btn").disabled = true;
+      } else {
+        document.getElementById('messageinsta').style.display = 'none';
+        document.getElementById("submit_btn").disabled = false;
+      }
+    };
+    var isUrlValidWeb = function () {
+      var userInput = document.getElementById("link_web").value;
+      var res = userInput.match(/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g);
+      if (res == null) {
+        document.getElementById('messageweb').style.color = 'red';
+        document.getElementById('messageweb').innerHTML = 'Not a Valid URL';
+        document.getElementById("submit_btn").disabled = true;
+      } else {
+        document.getElementById('messageweb').style.display = 'none';
+        document.getElementById("submit_btn").disabled = false;
+      }
+    };

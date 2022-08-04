@@ -1,0 +1,12 @@
+mixin paginationTag(page = {}, pages = {}, count =  {})
+  .col-xs-12.col-sm-12.col-md-5
+    #compact_info.dataTables_info(role='status', aria-live='polite') Showing #{page} of #{pages} - #{count} total results
+  .col-xs-12.col-sm-12.col-md-7
+    #compact_paginate.dataTables_paginate.paging_simple_numbers
+      ul.pagination
+        li#compact_previous.paginate_button.page-item.previous
+          if page > 1
+            a.page-link(href=`/admin/tag/all/page/${page - 1}`, aria-controls='compact', data-dt-idx='0', tabindex='0') Previous
+        li#compact_next.paginate_button.page-item.next
+          if page < pages
+            a.page-link(href=`/admin/tag/all/page/${parseFloat(page) + 1}`, aria-controls='compact', data-dt-idx='7', tabindex='0') Next

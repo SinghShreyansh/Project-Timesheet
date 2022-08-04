@@ -1,0 +1,159 @@
+doctype html
+
+head
+  meta(http-equiv='Content-Type' content='text/html; charset=utf-8')
+  meta(http-equiv='X-UA-Compatible' content='IE=edge')
+  title#appTitle Tables - Atlantis Bootstrap 4 Admin Dashboard
+  meta(content='width=device-width, initial-scale=1.0, shrink-to-fit=no' name='viewport')
+  link(rel='icon' href='../../assets/img/icon.ico' type='image/x-icon')
+  // Fonts and icons
+  script(src='../../assets/js/plugin/webfont/webfont.min.js')
+
+
+
+  // CSS Files
+  link(rel='stylesheet' href='/assets/css/bootstrap.min.css')
+  link(rel='stylesheet' href='/assets/css/atlantis.css')
+  link(rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css')
+  // CSS Just for demo purpose, don't include it in your project
+  link(rel='stylesheet' href='../../assets/css/demo.css')
+
+
+  block extraHeadLink
+.wrapper
+  .sidebar.sidebar-style-2
+    .logo-header(data-background-color='blue')
+      a.logo(href='../index.html')
+        img.navbar-brand(src='../../assets/img/logo.svg' alt='navbar brand')
+      button.navbar-toggler.sidenav-toggler.ml-auto(type='button' data-toggle='collapse' data-target='collapse' aria-expanded='false' aria-label='Toggle navigation')
+        span.navbar-toggler-icon
+          i.icon-menu
+      button.topbar-toggler.more
+        i.icon-options-vertical
+      .nav-toggle
+        button.btn.btn-toggle.toggle-sidebar
+          i.icon-menu
+      // End Logo Header
+    .sidebar-wrapper.scrollbar.scrollbar-inner
+      .sidebar-content
+        .user
+          .avatar-sm.float-left.mr-2
+            img.avatar-img.rounded-circle(src='../../assets/img/profile.jpg' alt='...')
+          .info
+            a(data-toggle='collapse' href='datatables.html#collapseExample' aria-expanded='true')
+              span
+                | #{session.user.name}
+                span.user-level Administrator
+                span.caret
+            .clearfix
+            #collapseExample.collapse.in
+              ul.nav
+                li
+                  a(href='datatables.html#profile')
+                    span.link-collapse My Profile
+                li
+                  a(href='datatables.html#edit')
+                    span.link-collapse Edit Profile
+                li
+                  a(href='datatables.html#settings')
+                    span.link-collapse Settings
+        ul.nav.nav-primary
+          block dashboardSidebar
+
+          block userSidebar
+
+
+          block addUserSidebar
+
+          block projectSidebar
+
+          block addProjectSidebar
+
+          block addAssignProjectSidebar
+
+          block tracker
+
+          block timesheet
+
+
+
+
+          li.nav-item
+            a(href='/account/logout')
+              p LogOut
+
+  block content
+  // Custom template | don't include it in your project!
+  .custom-template
+    .title Settings
+    .custom-content
+      .switcher
+        .switch-block
+          h4 Logo Header
+          .btnSwitch
+            button.changeLogoHeaderColor(type='button' data-color='dark')
+            button.selected.changeLogoHeaderColor(type='button' data-color='blue')
+            button.changeLogoHeaderColor(type='button' data-color='purple')
+            button.changeLogoHeaderColor(type='button' data-color='light-blue')
+            button.changeLogoHeaderColor(type='button' data-color='green')
+            button.changeLogoHeaderColor(type='button' data-color='orange')
+            button.changeLogoHeaderColor(type='button' data-color='red')
+            button.changeLogoHeaderColor(type='button' data-color='white')
+            br
+            button.changeLogoHeaderColor(type='button' data-color='dark2')
+            button.changeLogoHeaderColor(type='button' data-color='blue2')
+            button.changeLogoHeaderColor(type='button' data-color='purple2')
+            button.changeLogoHeaderColor(type='button' data-color='light-blue2')
+            button.changeLogoHeaderColor(type='button' data-color='green2')
+            button.changeLogoHeaderColor(type='button' data-color='orange2')
+            button.changeLogoHeaderColor(type='button' data-color='red2')
+        .switch-block
+          h4 Navbar Header
+          .btnSwitch
+            button.changeTopBarColor(type='button' data-color='dark')
+            button.changeTopBarColor(type='button' data-color='blue')
+            button.changeTopBarColor(type='button' data-color='purple')
+            button.changeTopBarColor(type='button' data-color='light-blue')
+            button.changeTopBarColor(type='button' data-color='green')
+            button.changeTopBarColor(type='button' data-color='orange')
+            button.changeTopBarColor(type='button' data-color='red')
+            button.changeTopBarColor(type='button' data-color='white')
+            br
+            button.changeTopBarColor(type='button' data-color='dark2')
+            button.selected.changeTopBarColor(type='button' data-color='blue2')
+            button.changeTopBarColor(type='button' data-color='purple2')
+            button.changeTopBarColor(type='button' data-color='light-blue2')
+            button.changeTopBarColor(type='button' data-color='green2')
+            button.changeTopBarColor(type='button' data-color='orange2')
+            button.changeTopBarColor(type='button' data-color='red2')
+        .switch-block
+          h4 Sidebar
+          .btnSwitch
+            button.selected.changeSideBarColor(type='button' data-color='white')
+            button.changeSideBarColor(type='button' data-color='dark')
+            button.changeSideBarColor(type='button' data-color='dark2')
+        .switch-block
+          h4 Background
+          .btnSwitch
+            button.changeBackgroundColor(type='button' data-color='bg2')
+            button.changeBackgroundColor.selected(type='button' data-color='bg1')
+            button.changeBackgroundColor(type='button' data-color='bg3')
+            button.changeBackgroundColor(type='button' data-color='dark')
+
+  // End Custom template
+// Core JS Files
+block pageScript
+script(src='/assets/js/core/jquery.3.2.1.min.js')
+script(src='/assets/js/core/popper.min.js')
+script(src='/assets/js/core/bootstrap.min.js')
+// jQuery UI
+script(src='/assets/js/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js')
+script(src='/assets/js/plugin/jquery-ui-touch-punch/jquery.ui.touch-punch.min.js')
+// jQuery Scrollbar
+script(src='/assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js')
+// Datatables
+script(src='/assets/js/plugin/datatables/datatables.min.js')
+// Atlantis JS
+script(src='/assets/js/atlantis.min.js')
+// Atlantis DEMO methods, don't include it in your project!
+script(src='/assets/js/setting-demo2.js')

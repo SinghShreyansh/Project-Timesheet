@@ -1,0 +1,57 @@
+extends layout-admin
+
+block content
+  .pcoded-content
+    .page-header.card
+      .row.align-items-end
+        .col-lg-8
+          .page-header-title
+            i.feather.icon-clipboard.bg-c-blue
+            .d-inline
+              h5 View all store with tags
+              //- span lorem ipsum dolor sit amet, consectetur adipisicing elit
+        .col-lg-4
+          .page-header-breadcrumb
+            ul.breadcrumb.breadcrumb-title
+              li.breadcrumb-item
+                a(href='/admin/dashboard')
+                  i.feather.icon-home
+              li.breadcrumb-item
+                a(href='javascript:void(0)') View all store with tags
+    .pcoded-inner-content
+      .main-body
+        .page-wrapper
+          .page-body
+            .row
+              .col-sm-12
+                .card
+                  .card-header
+                    .card-header-left
+                      h5 View all store with tags
+                    .card-header-right
+                      ul.list-unstyled.card-option
+                        li.first-opt
+                          i.feather.icon-chevron-left.open-card-option
+                        li
+                          i.feather.icon-maximize.full-card
+                        li
+                          i.feather.icon-minus.minimize-card
+                        li
+                          i.feather.icon-refresh-cw.reload-card
+                        li
+                          i.feather.icon-trash.close-card
+                        li
+                          i.feather.icon-chevron-left.open-card-option
+                  .card-block
+                    p
+                      | Add 
+                      code .btn-round
+                      |  to default button to get rounded corners.
+                    button.btn.btn-primary.btn-round.waves-effect.waves-light.marg Primary Button
+                    button.btn.btn-round.waves-effect.waves-light.marg Success Button
+                    button.btn.btn-round.waves-effect.waves-light.marg Info Button
+                    button.btn.btn-round.waves-effect.waves-light.marg Warning Button
+                    button.btn.btn-round.waves-effect.waves-light.marg Danger Button
+                    button.btn.btn-round.waves-effect.waves-light.marg Inverse Button
+                .card
+                  

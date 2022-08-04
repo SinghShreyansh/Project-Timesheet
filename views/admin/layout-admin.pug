@@ -1,0 +1,255 @@
+doctype html
+html
+  head
+    title= `${title} | Powai Live`
+    meta(charset='utf-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui')
+    meta(http-equiv='X-UA-Compatible', content='IE=edge')
+    link(rel='icon', href='/admin/assets/images/favicon_pl.png', type='image/x-icon')
+    link(href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800', rel='stylesheet')
+    link(href='https://fonts.googleapis.com/css?family=Quicksand:500,700', rel='stylesheet')
+    link(rel='stylesheet', type='text/css', href='/admin/bower_components/bootstrap/css/bootstrap.min.css')
+    link(rel='stylesheet', href='/admin/assets/pages/waves/css/waves.min.css', type='text/css', media='all')
+    link(rel="stylesheet", href="/admin/assets/css/font-awesome-n.min.css")
+    link(rel='stylesheet', type='text/css', href='/admin/assets/icon/feather/css/feather.css')
+    link(rel='stylesheet', type='text/css', href='/admin/assets/css/style.css')
+    link(rel="stylesheet", href="/admin/assets/css/widget.css")
+    link(rel='stylesheet', type='text/css', href='/admin/assets/css/custom.css')
+    link(rel='stylesheet', type='text/css', href='/admin/files/assets/icon/icofont/css/icofont.css')
+    link(rel='stylesheet', type='text/css', href='/admin/files/assets/icon/font-awesome/css/font-awesome.min.css')
+    link(rel="stylesheet", href="/admin/dist/css/dropify.css")
+    link(rel="stylesheet", href="/admin/bower_components/select2/css/select2.min.css")
+    link(rel="stylesheet", href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css")
+    link(rel='stylesheet', href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css")
+    script(src="https://code.jquery.com/jquery-1.12.4.js")
+    script(src="https://code.jquery.com/ui/1.12.1/jquery-ui.js")
+    //- sweet alert
+    link(rel='stylesheet', href='sweetalert2.min.css')
+  body
+    block header
+      .loader-bg
+        .loader-bar
+      #pcoded.pcoded
+        .pcoded-overlay-box
+        .pcoded-container.navbar-wrapper
+          nav.navbar.header-navbar.pcoded-header
+            .navbar-wrapper
+              .navbar-logo
+                a(href='/admin/dashboard')
+                  img.img-fluid(src='/admin/assets/images/logo.png', alt='logo', width=50, style="border-radius:30px")
+                a#mobile-collapse.mobile-menu(href='sample-page.html#!')
+                  i.feather.icon-menu.icon-toggle-right
+                a.mobile-options.waves-effect.waves-light
+                  i.feather.icon-more-horizontal
+              .navbar-container.container-fluid
+                ul.nav-left
+                  li.header-search
+                    .main-search.morphsearch-search
+                      .input-group
+                        span.input-group-prepend.search-close
+                          i.feather.icon-x.input-group-text
+                        input.form-control(type='text', placeholder='Enter Keyword')
+                        span.input-group-append.search-btn
+                          i.feather.icon-search.input-group-text
+                ul.nav-right
+                  li.user-profile.header-notification
+                    .dropdown-primary.dropdown
+                      .dropdown-toggle(data-toggle='dropdown')
+                        //- img.img-radius(src='/assets/images/avatar-4.jpg', alt='User-Profile-Image')
+                        span Hi, #{session.user.name.split(" ").slice(0, 1).join(' ')}
+                        i.feather.icon-chevron-down
+                      ul.show-notification.profile-notification.dropdown-menu(data-dropdown-in='fadeIn', data-dropdown-out='fadeOut')
+                        li
+                          a(href='/admin/logout')
+                            i.feather.icon-log-out
+                            | Logout
+          .pcoded-main-container
+            .pcoded-wrapper
+              nav.pcoded-navbar
+                .nav-list
+                  .pcoded-inner-navbar.main-menu
+                    .pcoded-navigation-label Navigation
+                    ul.pcoded-item.pcoded-left-item
+                      li
+                        a.waves-effect.waves-dark(href='/admin/dashboard')
+                          span.pcoded-micon
+                            i.feather.icon-home
+                          span.pcoded-mtext Dashboard
+                        li.pcoded-hasmenu
+                          a.waves-effect.waves-dark(href='javascript:void(0)')
+                            span.pcoded-micon
+                              i.feather.icon-users
+                            span.pcoded-mtext Users Section
+                          ul.pcoded-submenu
+                            li
+                              a.waves-effect.waves-dark(href='/admin/user/all')
+                                span.pcoded-mtext View All Users
+                            li
+                              a.waves-effect.waves-dark(href='/admin/user/add')
+                                span.pcoded-mtext Add Users
+                        li.pcoded-hasmenu
+                          a.waves-effect.waves-dark(href='javascript:void(0)')
+                            span.pcoded-micon
+                              i.feather.icon-pocket
+                            span.pcoded-mtext Feeds Section
+                          ul.pcoded-submenu
+                            li
+                              a.waves-effect.waves-dark(href='/admin/feed/add')
+                                span.pcoded-mtext Add Feeds
+                            li
+                              a.waves-effect.waves-dark(href='/admin/feed/all')
+                                span.pcoded-mtext View All Feeds
+                        li.pcoded-hasmenu
+                          a.waves-effect.waves-dark(href='javascript:void(0)')
+                            span.pcoded-micon
+                              i.feather.icon-bookmark
+                            span.pcoded-mtext Tags Section
+                          ul.pcoded-submenu
+                            li
+                              a.waves-effect.waves-dark(href='/admin/tag/add')
+                                span.pcoded-mtext Add Tag
+                            li
+                              a.waves-effect.waves-dark(href='/admin/tag/all')
+                                span.pcoded-mtext View All Tag
+                        li.pcoded-hasmenu
+                          a.waves-effect.waves-dark(href='javascript:void(0)')
+                            span.pcoded-micon
+                              i.feather.icon-package
+                            span.pcoded-mtext Donate Section
+                          ul.pcoded-submenu
+                            li
+                              a.waves-effect.waves-dark(href='/admin/donate/add')
+                                span.pcoded-mtext Add Cause
+                            li
+                              a.waves-effect.waves-dark(href='/admin/donate/all')
+                                span.pcoded-mtext View All Cause
+                        li.pcoded-hasmenu
+                          a.waves-effect.waves-dark(href='javascript:void(0)')
+                            span.pcoded-micon
+                              i.feather.icon-aperture
+                            span.pcoded-mtext Events Section
+                          ul.pcoded-submenu
+                            li
+                              a.waves-effect.waves-dark(href='/admin/event/add')
+                                span.pcoded-mtext Add Events
+                            li
+                              a.waves-effect.waves-dark(href='/admin/event/all')
+                                span.pcoded-mtext View All Events
+                        li.pcoded-hasmenu
+                          a.waves-effect.waves-dark(href='javascript:void(0)')
+                            span.pcoded-micon
+                              i.feather.icon-sidebar
+                            span.pcoded-mtext Stores Section
+                          ul.pcoded-submenu
+                            li
+                              a.waves-effect.waves-dark(href='/admin/store/add')
+                                span.pcoded-mtext Add Store
+                            li
+                              a.waves-effect.waves-dark(href='/admin/store/all')
+                                span.pcoded-mtext View All Store
+                            li
+                              a.waves-effect.waves-dark(href='/admin/store/nearby/all')
+                                span.pcoded-mtext View All nearby stores
+                        li.pcoded-hasmenu
+                          a.waves-effect.waves-dark(href='javascript:void(0)')
+                            span.pcoded-micon
+                              i.feather.icon-book
+                            span.pcoded-mtext Deals section
+                          ul.pcoded-submenu
+                            li
+                              a.waves-effect.waves-dark(href='/admin/deal/add')
+                                span.pcoded-mtext Add Deals
+                            li
+                              a.waves-effect.waves-dark(href='/admin/deal/all')
+                                span.pcoded-mtext View All Deals
+                        li.pcoded-hasmenu
+                          a.waves-effect.waves-dark(href='javascript:void(0)')
+                            span.pcoded-micon
+                              i.feather.icon-box
+                            span.pcoded-mtext Story section
+                          ul.pcoded-submenu
+                            li
+                              a.waves-effect.waves-dark(href='/admin/story/add')
+                                span.pcoded-mtext Add Story
+                            li
+                              a.waves-effect.waves-dark(href='/admin/story/all')
+                                span.pcoded-mtext View All Stories
+                        li.pcoded-hasmenu
+                          a.waves-effect.waves-dark(href='javascript:void(0)')
+                            span.pcoded-micon
+                              i.feather.icon-play
+                            span.pcoded-mtext Video section
+                          ul.pcoded-submenu
+                            li
+                              a.waves-effect.waves-dark(href='/admin/video/add')
+                                span.pcoded-mtext Upload Video
+                            li
+                              a.waves-effect.waves-dark(href='/admin/video/all')
+                                span.pcoded-mtext View All Videos
+                        li.pcoded-hasmenu
+                          a.waves-effect.waves-dark(href='javascript:void(0)')
+                            span.pcoded-micon
+                              i.feather.icon-smartphone
+                            span.pcoded-mtext Interface
+                          ul.pcoded-submenu
+                            li.pcoded-hasmenu
+                              a.waves-effect.waves-dark(href='javascript:void(0)')
+                                span.pcoded-micon
+                                  i.feather.icon-bookmark
+                                span.pcoded-mtext Home Banners
+                              ul.pcoded-submenu
+                                li
+                                  a.waves-effect.waves-dark(href='/admin/banner/add')
+                                    span.pcoded-mtext Add Banners
+                                li
+                                  a.waves-effect.waves-dark(href='/admin/banner/all')
+                                    span.pcoded-mtext View Banners
+                            li
+                              a.waves-effect.waves-dark(href='/admin/favourite/add')
+                                span.pcoded-mtext Favourite Screen
+                            li
+                              a.waves-effect.waves-dark(href='/admin/contact/add')
+                                span.pcoded-mtext Contact Screen
+              block messages
+                if locals.flashes
+                  .inner
+                    .flash-messages
+                      - const categories = Object.keys(locals.flashes)
+                      each category in categories
+                        each message in flashes[category]
+                          .flash(class=`flash--${category}`)
+                            p.flash__text!= message
+                            button.flash__remove(onClick="this.parentElement.remove()") &times;
+
+              .content
+                block content
+
+    block scripts
+      script(src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC8JxcSJ9rEE57tkC2Gc0n88VjEAtJkPY8&libraries=places&callback=initMap" async defer)
+      script(type='text/javascript', src='/admin/bower_components/jquery/js/jquery.min.js')
+      script(type='text/javascript', src='/admin/bower_components/jquery-ui/js/jquery-ui.min.js')
+      script(type='text/javascript', src='/admin/bower_components/popper.js/js/popper.min.js')
+      script(type='text/javascript', src='/admin/bower_components/bootstrap/js/bootstrap.min.js')
+      //-- Sweet Alert
+      script(src='/admin/custom/sweetalert/sweetalert.min.js')
+      //- script(src="/admin/bower_components/fancybox/jquery.fancybox.js")
+      script(src="/admin/bower_components/select2/js/select2.full.min.js")
+      script(src="/admin/assets/pages/advance-elements/select2-custom.js")
+      script(src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js")
+      script(type='text/javascript', src="/admin/dist/js/dropify.js")
+      script(src='/admin/assets/pages/waves/js/waves.min.js')
+      script(type='text/javascript', src='/admin/bower_components/jquery-slimscroll/js/jquery.slimscroll.js')
+      script(src='/admin/assets/js/pcoded.min.js')
+      script(src='/admin/assets/js/vertical/vertical-layout.min.js')
+      script(type='text/javascript', src='/admin/assets/js/script.min.js')
+
+    script.
+      $('.dropify').dropify({
+        messages: {
+          'default': 'Drag and drop a file here or click',
+          'replace': 'Drag and drop or click to replace',
+          'remove': 'Remove',
+          'error': 'Something went wrong.'
+        }
+      });
+      $('.flash-messages').delay(2100).hide('fast');

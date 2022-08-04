@@ -1,0 +1,64 @@
+extends layout-admin
+
+//- include mixins/_pagination-store
+
+block content
+  .pcoded-content
+    .page-header.card
+      .row.align-items-end
+        .col-lg-8
+          .page-header-title
+            i.feather.icon-clipboard.bg-c-blue
+            .d-inline
+              h5 View All Stories
+              //- span lorem ipsum dolor sit amet, consectetur adipisicing elit
+        .col-lg-4
+          .page-header-breadcrumb
+            ul.breadcrumb.breadcrumb-title
+              li.breadcrumb-item
+                a(href='/admin/dashboard')
+                  i.feather.icon-home
+              li.breadcrumb-item
+                a(href='javascript:void(0)') View All Stories
+    .pcoded-inner-content
+      .main-body
+        .page-wrapper
+          .page-body
+            .row
+              .col-sm-12
+                .card
+                  .card-header
+                    h5 View All Stories
+                  .card-block
+                    .table-responsive
+                      table.table.table-sm
+                        thead
+                          tr
+                            th Title
+                            th Image
+                            th Status
+                            th Action
+                        each story in stories
+                          tbody
+                            tr
+                              td #{story.title}
+                              td
+                                if story.image
+                                  .media-left.photo-table
+                                    a(href='javascript:void(0)')
+                                      img.media-object(src=`${story.image}`)
+                                else
+                                  .media-left.photo-table
+                                    a(href='javascript:void(0)')
+                                      img.media-object.img-radius(src="/uploads/profile/user-demo.png")
+                              td
+                                if story.status == 'active'
+                                  label.label.label-success Active
+                                else if story.status == 'inactive'
+                                  label.label.label-danger Inactive
+                              td
+                                a(href=`/admin/story/update/${story._id}`)
+                                  | Edit
+
+            //- .row
+              +paginationStore(page, pages, count)

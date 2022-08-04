@@ -1,0 +1,93 @@
+extends layout-admin
+
+block content
+  .pcoded-content
+    .page-header.card
+      .row.align-items-end
+        .col-lg-8
+          .page-header-title
+            i.feather.icon-clipboard.bg-c-blue
+            .d-inline
+              h5 Manage Favourite Screen
+        .col-lg-4
+          .page-header-breadcrumb
+            ul.breadcrumb.breadcrumb-title
+              li.breadcrumb-item
+                a(href='/admin/dashboard')
+                  i.feather.icon-home
+              li.breadcrumb-item
+                a(href='javascript:void(0)') Manage Favourite Screen
+    .pcoded-inner-content
+      .main-body
+        .page-wrapper
+          .page-body
+            .row
+              .col-sm-12
+                if favs.length >= 1
+                  form(action=`/admin/favourite/add/${favs[0]._id}` method="POST")
+                    .card
+                      .card-header
+                        h5 Favourite Screen
+                      .card-block
+                        .form-group.row
+                          label.col-sm-2.col-form-label Banner
+                          .col-sm-10
+                            select.js-example-basic-multiple-banner.col-sm-12(name='banner' id="ban" multiple)
+                              if stores.length != 0
+                                each store in stores
+                                  option(value=store._id) #{store.name}
+                              else
+                                option(value="none") No Stores yet. Please add stores.
+                        .form-group.row
+                          label.col-sm-2.col-form-label Favourite Tags
+                          .col-sm-10
+                            select.js-example-basic-multiple-tag.col-sm-12(name='fav' id="fav" multiple)
+                              if tags.length != 0
+                                each tag in tags
+                                  option(value=tag._id) #{tag.name}
+                              else
+                                option(value="none") No tags yet. Please add tags.
+                        .form-group.row
+                          label.col-sm-2.col-form-label Title Text
+                          .col-sm-10
+                            input.form-control(type='text' name="title_text", value=favs[0].title_text)
+                        button.btn.waves-effect.waves-light.btn-primary.btn-block(type="submit")
+                          i.icofont.icofont-user-alt-3
+                          | Submit →
+                else if favs.length == 0
+                  form(action='/admin/favourite/add' method="POST")
+                    .card
+                      .card-header
+                        h5 Favourite Screen
+                      .card-block
+                        .form-group.row
+                          label.col-sm-2.col-form-label Banner
+                          .col-sm-10
+                            select.js-example-basic-multiple-banner.col-sm-12(name='banner' multiple)
+                              if stores.length != 0
+                                each store in stores
+                                  option(value=store._id) #{store.name}
+                              else
+                                option(value="none") No Stores yet. Please add stores.
+                        .form-group.row
+                          label.col-sm-2.col-form-label Favourite Tags
+                          .col-sm-10
+                            select.js-example-basic-multiple-tag.col-sm-12(name='fav' multiple)
+                              if tags.length != 0
+                                each tag in tags
+                                  option(value=tag._id) #{tag.name}
+                              else
+                                option(value="none") No tags yet. Please add tags.
+                        .form-group.row
+                          label.col-sm-2.col-form-label Title Text
+                          .col-sm-10
+                            input.form-control(type='text' name="title_text")
+                        button.btn.waves-effect.waves-light.btn-primary.btn-block(type="submit")
+                          i.icofont.icofont-user-alt-3
+                          | Submit →
+  block script
+    script(src="https://code.jquery.com/jquery-3.3.1.min.js", integrity='sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=', crossorigin='anonymous')
+    script(src="/admin/custom/add-fav.js")
+
+  script.
+    var bannObj = !{JSON.stringify(favs[0])}

@@ -1,0 +1,37 @@
+mixin updateUser(user = {})
+  form(action=`/admin/user/update/${user._id}` method="POST")
+    .form-group.row
+      label.col-sm-2.col-form-label Name
+      .col-sm-10
+        input.form-control(type='text' name="name" value=user.name required)
+    .form-group.row
+      label.col-sm-2.col-form-label Email
+      .col-sm-10
+        input.form-control(type='text' name="email" value=user.email required)
+    .form-group.row
+      label.col-sm-2.col-form-label Mobile
+      .col-sm-10
+        input.form-control(type='text' name="mobile" value=user.mobile)
+    .form-group.row
+      label.col-sm-2.col-form-label Type
+      .col-sm-10
+        select.form-control(name='user_type')
+          if user.user_type == 'user'
+            option(value='user' selected) User
+            option(value='admin') Admin
+          else if user.user_type == 'admin'
+            option(value='user') User
+            option(value='admin' selected) Admin
+    .form-group.row
+      label.col-sm-2.col-form-label Status
+      .col-sm-10
+        select.form-control(name='status')
+          if user.status == 'active'
+            option(value='active' selected) Active
+            option(value='inactive') Inactive
+          else if user.status == 'inactive'
+            option(value='active') Active
+            option(value='inactive' selected) Inactive
+    button.btn.waves-effect.waves-light.btn-primary.btn-block(type="submit")
+      i.icofont.icofont-user-alt-3
+      | Submit →

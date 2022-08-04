@@ -1,0 +1,116 @@
+extends layout-admin
+
+block content
+  .pcoded-content
+    .page-header.card
+      .row.align-items-end
+        .col-lg-8
+          .page-header-title
+            i.feather.icon-clipboard.bg-c-blue
+            .d-inline
+              h5 Add Events
+        .col-lg-4
+          .page-header-breadcrumb
+            ul.breadcrumb.breadcrumb-title
+              li.breadcrumb-item
+                a(href='/admin/dashboard')
+                  i.feather.icon-home
+              li.breadcrumb-item
+                a(href='javascript:void(0)') Add Events
+    .pcoded-inner-content
+      .main-body
+        .page-wrapper
+          .page-body
+            .row
+              .col-sm-12
+                form(action='/admin/event/add' method="POST" enctype='multipart/form-data')
+                  .card
+                    .card-header
+                      h5 Add Events
+                    .card-block
+                      .form-group.row
+                        label.col-sm-2.col-form-label Name
+                        .col-sm-10
+                          input.form-control(type="text", name="name", required)
+                      .form-group.row
+                        label.col-sm-2.col-form-label Select Image
+                        .col-sm-10
+                          input.form-control(type="file", name="image", accept="image/x-png,image/gif,image/jpeg" required)
+                      .form-group.row
+                        label.col-sm-2.col-form-label Gallery Image
+                        .col-sm-10
+                          input.form-control.fileinput(type='file' name="image_gallery" accept="image/x-png,image/gif,image/jpeg" multiple)
+                      .form-group.row
+                        label.col-sm-2.col-form-label Description
+                        .col-sm-10.padd
+                          textarea.form-control(name="desc", cols="30", rows="10")
+                      .form-group.row
+                        label.col-sm-2.col-form-label Starting date
+                        .col-sm-10.padd
+                          input.form-control.flatplace.flatpickr-input(type="text", name="starting_date", data-id='datetime', placeholder="Select a date", required)
+                      .form-group.row
+                        label.col-sm-2.col-form-label Instagram Link
+                        .col-sm-10.padd
+                          input.form-control(type="text", name="insta_link" placeholder="Instgram Link")
+                      .form-group.row
+                        label.col-sm-2.col-form-label Facebook Link
+                        .col-sm-10.padd
+                          input.form-control(type="text", name="fb_link" placeholder="Facebook Link")
+                      .form-group.row
+                        label.col-sm-2.col-form-label Web Link
+                        .col-sm-10.padd
+                          input.form-control(type="text", name="web_link" placeholder="Web Link")
+                      .form-group.row
+                        label.col-sm-2.col-form-label Buy Ticket
+                        .col-sm-10.padd
+                          input.form-control(type="text", name="buy_ticket" placeholder="Buy Ticket Link")
+                      .form-group.row
+                        label.col-sm-2.col-form-label Age Limit
+                        .col-sm-10.padd
+                          input.form-control(type="text", name="age_limit" placeholder="5 Above")
+                      .form-group.row
+                        label.col-sm-2.col-form-label Time
+                        .col-sm-10.padd
+                          input.form-control(type="text", name="time" placeholder="9am - 10pm")
+                      input.form-control(type='hidden' id="longitude" name="location[coordinates][0]")
+                      input.form-control(type='hidden' id="latitude" name="location[coordinates][1]")
+                      .form-group.row
+                        //- Address
+                        label.col-sm-2.col-form-label Address
+                        .col-sm-10
+                          input.form-control(type='text' id="address" name="location[address]" required)
+                      .col-md-12
+                        div#myMap(style="height: 400px; margin-top:30px; display:none")
+                      .form-group.row
+                        label.col-sm-2.col-form-label Status
+                        .col-sm-10
+                          select.form-control(name='status')
+                            option(value='active') Active
+                            option(value='inactive') Inactive
+                      button.btn.waves-effect.waves-light.btn-primary.btn-block(type="submit" id="submit_btn")
+                        i.icofont.icofont-user-alt-3
+                        | Submit →
+
+  block script.
+    script(src="https://code.jquery.com/jquery-3.3.1.min.js", integrity='sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=', crossorigin='anonymous')
+    script(src='https://cdn.jsdelivr.net/npm/flatpickr')
+    script(src="/admin/javascript/map.js")
+
+  script.
+    var flatpickrOpt = {
+      altInput: true,
+      altFormat: "F j, Y",
+      dateFormat: "Y-m-d",
+      minDate: "today"
+    };
+
+    $( '.flatplace' ).flatpickr(flatpickrOpt);
+
+    $(document).ready(function() {
+      $('.fileinput').change(function() {
+        if (this.files.length > 7) {
+          alert('Not more than 7 images');
+          $('.fileinput').val('');
+        }
+      });
+    });

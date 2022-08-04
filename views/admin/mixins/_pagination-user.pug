@@ -1,0 +1,12 @@
+mixin paginationUser(page = {}, pages = {}, count = {})
+  .col-sm-12.col-md-5
+    #basic-datatables_info.dataTables_info(role='status', aria-live='polite') Showing #{page} of #{pages} - #{count} total results
+  .col-sm-12.col-md-7
+    #basic-datatables_paginate.dataTables_paginate.paging_simple_numbers
+      ul.pagination
+        li#basic-datatables_previous.paginate_button.page-item.previous
+          if page > 1
+            a.page-link(href=`/admin/user/all/page/${page - 1}`, aria-controls='basic-datatables', data-dt-idx='0', tabindex='0') Previous
+        li#basic-datatables_next.paginate_button.page-item.next
+          if page < pages
+            a.page-link(href=`/admin/user/all/page/${parseFloat(page) + 1}`, aria-controls='basic-datatables', data-dt-idx='7', tabindex='0') Next

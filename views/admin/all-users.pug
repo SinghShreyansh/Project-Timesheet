@@ -1,0 +1,45 @@
+extends layout-admin
+
+include mixins/_all-users
+include mixins/_pagination-user
+
+block content
+  .pcoded-content
+    .page-header.card
+      .row.align-items-end
+        .col-lg-8
+          .page-header-title
+            i.feather.icon-clipboard.bg-c-blue
+            .d-inline
+              h5 View All Users
+              //- span lorem ipsum dolor sit amet, consectetur adipisicing elit
+        .col-lg-4
+          .page-header-breadcrumb
+            ul.breadcrumb.breadcrumb-title
+              li.breadcrumb-item
+                a(href='/dashboard')
+                  i.feather.icon-home
+              li.breadcrumb-item
+                a(href='javascript:void(0)') View All Users
+    .pcoded-inner-content
+      .main-body
+        .page-wrapper
+          .page-body
+            .row
+              .col-sm-12
+                .card
+                  .col-md-6
+                    .card-header
+                      h5 View All Users
+                  .col-md-6
+                      //- #dt-ajax-array_filter.dataTables_filter
+                      //-   label(style="margin-right: 40px;")
+                      //-     input.form-control.input-sm(type='text', id="userFilter", placeholder="Search..", aria-controls='dt-ajax-array')
+                  .card-block
+                    +viewAllUsers(users)
+            .row
+              +paginationUser(page, pages, count)
+
+  block script
+    script(src="https://code.jquery.com/jquery-3.3.1.min.js", integrity='sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=', crossorigin='anonymous')
+    //- script(src="/custom.js/ticket-search.js")

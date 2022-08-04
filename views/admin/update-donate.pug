@@ -1,0 +1,60 @@
+extends layout-admin
+
+block content
+  .pcoded-content
+    .page-header.card
+      .row.align-items-end
+        .col-lg-8
+          .page-header-title
+            i.feather.icon-clipboard.bg-c-blue
+            .d-inline
+              h5 Update Cause
+        .col-lg-4
+          .page-header-breadcrumb
+            ul.breadcrumb.breadcrumb-title
+              li.breadcrumb-item
+                a(href='/admin/dashboard')
+                  i.feather.icon-home
+              li.breadcrumb-item
+                a(href='javascript:void(0)') Update Cause
+    .pcoded-inner-content
+      .main-body
+        .page-wrapper
+          .page-body
+            .row
+              .col-sm-12
+                form(action=`/admin/donate/edit/${donate._id}` method="POST" enctype='multipart/form-data')
+                  .card
+                    .card-header
+                      h5 Update Cause
+                    .card-block
+                      .form-group.row
+                        label.col-sm-2.col-form-label Title
+                        .col-sm-10
+                          input.form-control(type="text", name="title", value=`${donate.title}`, required)
+                      .form-group.row
+                        label.col-sm-2.col-form-label Cause Image
+                        .col-sm-10
+                          input.form-control(type="file", name="image", accept="image/x-png,image/gif,image/jpeg")
+                      if donate.image
+                        .form-group.row
+                          label.col-sm-2.col-form-label Preview Cause Image
+                          .col-sm-10
+                            img(src=`${donate.image}`, alt="", srcset="")
+                      .form-group.row
+                        label.col-sm-2.col-form-label Description
+                        .col-sm-10
+                          textarea.form-control(type='text' name="desc" cols="30" rows="6")= donate.desc
+                      .form-group.row
+                        label.col-sm-2.col-form-label Link
+                        .col-sm-10
+                          input.form-control(type="text", name="link", value=`${donate.link}`, required)
+                      .form-group.row
+                        label.col-sm-2.col-form-label Status
+                        .col-sm-10
+                          select.form-control(name="status")
+                            option(value="active" selected=(donate.status == "active" ? "selected" : null)) Active
+                            option(value="inactive" selected=(donate.status == "inactive" ? "selected" : null)) Inactive
+                      button.btn.waves-effect.waves-light.btn-primary.btn-block(type="submit" id="submit_btn")
+                        i.icofont.icofont-user-alt-3
+                        | Submit →

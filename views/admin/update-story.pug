@@ -1,0 +1,71 @@
+extends layout-admin
+
+block content
+  .pcoded-content
+    .page-header.card
+      .row.align-items-end
+        .col-lg-8
+          .page-header-title
+            i.feather.icon-clipboard.bg-c-blue
+            .d-inline
+              h5 Update Story
+              //- span lorem ipsum dolor sit amet, consectetur adipisicing elit
+        .col-lg-4
+          .page-header-breadcrumb
+            ul.breadcrumb.breadcrumb-title
+              li.breadcrumb-item
+                a(href='/admin/dashboard')
+                  i.feather.icon-home
+              li.breadcrumb-item
+                a(href='javascript:void(0)') Update Story
+    .pcoded-inner-content
+      .main-body
+        .page-wrapper
+          .page-body
+            .row
+              .col-sm-12
+                .card
+                  .card-header
+                    h5 Update Story
+                  .card-block
+                    form(action=`/admin/story/update/${story._id}` method="POST" enctype="multipart/form-data")
+                      .form-group.row
+                        label.col-sm-2.col-form-label Title
+                        .col-sm-10
+                          input.form-control(type='text' name="title" value=story.title required)
+                      .form-group.row
+                        label.col-sm-2.col-form-label Image
+                        .col-sm-10
+                          input.form-control(type='file' name="image" accept="image/x-png,image/gif,image/jpeg")
+                      if story.image
+                        .form-group.row
+                          label.col-sm-2.col-form-label Preview Image
+                          .col-sm-10
+                            img(src=`${story.image}`, alt="", srcset="")
+                      //- .form-group.row
+                        label.col-sm-2.col-form-label Duration
+                        .col-sm-10
+                          input.form-control(type='text' name="duration")
+                      .form-group.row
+                        label.col-sm-2.col-form-label Status
+                        .col-sm-10
+                          select.form-control(name='status')
+                            option(value='active', selected=(story.status === 'active' && 'selected')) Active
+                            option(value='inactive' selected=(story.status === 'inactive' && 'selected')) Inactive
+                      button.btn.waves-effect.waves-light.btn-primary.btn-block(type="submit")
+                        i.icofont.icofont-user-alt-3
+                        | Submit →
+
+
+  block script
+    script(src="https://code.jquery.com/jquery-3.3.1.min.js", integrity='sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=', crossorigin='anonymous')
+    script(src="/admin/javascript/map.js")
+  script.
+    $(document).ready(function() {
+      $('.fileinput').change(function() {
+        if (this.files.length > 7) {
+          alert('Not more than 7 images');
+          $('.fileinput').val('');
+        }
+      });
+    });

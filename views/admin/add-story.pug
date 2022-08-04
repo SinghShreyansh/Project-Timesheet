@@ -1,0 +1,83 @@
+extends layout-admin
+
+block content
+  .pcoded-content
+    .page-header.card
+      .row.align-items-end
+        .col-lg-8
+          .page-header-title
+            i.feather.icon-clipboard.bg-c-blue
+            .d-inline
+              h5 Add New Story
+              //- span lorem ipsum dolor sit amet, consectetur adipisicing elit
+        .col-lg-4
+          .page-header-breadcrumb
+            ul.breadcrumb.breadcrumb-title
+              li.breadcrumb-item
+                a(href='/admin/dashboard')
+                  i.feather.icon-home
+              li.breadcrumb-item
+                a(href='javascript:void(0)') Add New Story
+    .pcoded-inner-content
+      .main-body
+        .page-wrapper
+          .page-body
+            .row
+              .col-sm-12
+                .card
+                  .card-header
+                    h5 Add New Story
+                  .card-block
+                    form(action='/admin/story/add' method="POST" enctype="multipart/form-data")
+                      .form-group.row
+                        label.col-sm-2.col-form-label Title
+                        .col-sm-10
+                          input.form-control(type='text' name="title", required)
+                      .form-group.row
+                        label.col-sm-2.col-form-label Image
+                        .col-sm-10
+                          input.form-control(type='file' name="image" accept="image/x-png,image/gif,image/jpeg")
+                      .form-group.row
+                        label.col-sm-2.col-form-label Default Link (FB / Instagram links only)
+                        .col-sm-10
+                          input.form-control(type='text' name="default_link")
+                      .form-group.row
+                        label.col-sm-2.col-form-label Link
+                        .col-sm-10
+                          input.form-control(type='text' name="link")
+                      input.form-control(type='hidden' id="longitude" name="location[coordinates][0]")
+                      input.form-control(type='hidden' id="latitude" name="location[coordinates][1]")
+                      .form-group.row
+                        //- Address
+                        label.col-sm-2.col-form-label Address
+                        .col-sm-10
+                          input.form-control(type='text' id="address" name="location[address]" required)
+                      .col-md-12
+                        div#myMap(style="height: 400px; margin-top:30px; display:none")
+                      //- .form-group.row
+                        label.col-sm-2.col-form-label Duration
+                        .col-sm-10
+                          input.form-control(type='text' name="duration")
+                      .form-group.row
+                        label.col-sm-2.col-form-label Status
+                        .col-sm-10
+                          select.form-control(name='status')
+                            option(value='active') Active
+                            option(value='inactive') Inactive
+                      button.btn.waves-effect.waves-light.btn-primary.btn-block(type="submit")
+                        i.icofont.icofont-user-alt-3
+                        | Submit →
+
+
+  block script
+    script(src="https://code.jquery.com/jquery-3.3.1.min.js", integrity='sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=', crossorigin='anonymous')
+    script(src="/admin/javascript/map.js")
+  script.
+    $(document).ready(function() {
+      $('.fileinput').change(function() {
+        if (this.files.length > 7) {
+          alert('Not more than 7 images');
+          $('.fileinput').val('');
+        }
+      });
+    });

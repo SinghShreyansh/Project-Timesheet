@@ -1,0 +1,103 @@
+extends layout-admin
+
+block content
+  .pcoded-content
+    .page-header.card
+      .row.align-items-end
+        .col-lg-8
+          .page-header-title
+            i.feather.icon-home.bg-c-blue
+            .d-inline
+              h5 Dashboard
+              //- span lorem ipsum dolor sit amet, consectetur adipisicing elit
+        .col-lg-4
+          .page-header-breadcrumb
+            //- ul.breadcrumb.breadcrumb-title
+            //-   li.breadcrumb-item
+            //-     a(href='index.html')
+            //-       i.feather.icon-home
+            //-   li.breadcrumb-item
+            //-     a(href='sample-page.html#!') Sample page
+    .pcoded-inner-content
+      .main-body
+        .page-wrapper
+          .page-body
+            .row
+              .col-xl-3.col-md-6
+                .card.prod-p-card.card-red
+                  .card-body
+                    .row.align-items-center.m-b-30
+                      .col
+                        h6.m-b-5.text-white Users
+                        h3.m-b-0.f-w-700.text-white #{userCount}
+                      .col-auto
+                        i.fas.fa-money-bill-alt.text-c-red.f-18
+                    //- p.m-b-0.text-white
+                    //-   span.label.label-danger.m-r-10 +11%
+                    //-   | From Previous Month
+              .col-xl-3.col-md-6
+                .card.prod-p-card.card-blue
+                  .card-body
+                    .row.align-items-center.m-b-30
+                      .col
+                        h6.m-b-5.text-white Feeds
+                        h3.m-b-0.f-w-700.text-white #{feedCount}
+                      .col-auto
+                        i.fas.fa-database.text-c-blue.f-18
+                    //- p.m-b-0.text-white
+                    //-   span.label.label-primary.m-r-10 +12%
+                    //-   | From Previous Month
+              .col-xl-3.col-md-6
+                .card.prod-p-card.card-green
+                  .card-body
+                    .row.align-items-center.m-b-30
+                      .col
+                        h6.m-b-5.text-white Stores
+                        h3.m-b-0.f-w-700.text-white #{storeCount}
+                      .col-auto
+                        i.fas.fa-dollar-sign.text-c-green.f-18
+                    //- p.m-b-0.text-white
+                    //-   span.label.label-success.m-r-10 +52%
+                    //-   | From Previous Month
+              .col-xl-3.col-md-6
+                .card.prod-p-card.card-yellow
+                  .card-body
+                    .row.align-items-center.m-b-30
+                      .col
+                        h6.m-b-5.text-white Tags
+                        h3.m-b-0.f-w-700.text-white #{tagCount}
+                      .col-auto
+                        i.fas.fa-tags.text-c-yellow.f-18
+                    //- p.m-b-0.text-white
+                    //-   span.label.label-warning.m-r-10 +52%
+                    //-   | From Previous Month
+              //- .col-xl-4.col-md-12
+              //-   .card.comp-card
+              //-     .card-body
+              //-       .row.align-items-center
+              //-         .col
+              //-           h6.m-b-25 Active Clients
+              //-           h3.f-w-700.text-c-blue 100
+              //-           p.m-b-0 May 23 - June 01 (2017)
+              //-         .col-auto
+              //-           i.fas.fa-eye.bg-c-blue
+              //- .col-xl-4.col-md-6
+              //-   .card.comp-card
+              //-     .card-body
+              //-       .row.align-items-center
+              //-         .col
+              //-           h6.m-b-25 Categories
+              //-           h3.f-w-700.text-c-green 565
+              //-           p.m-b-0 May 23 - June 01 (2017)
+              //-         .col-auto
+              //-           i.fas.fa-bullseye.bg-c-green
+              //- .col-xl-4.col-md-6
+              //-   .card.comp-card
+              //-     .card-body
+              //-       .row.align-items-center
+              //-         .col
+              //-           h6.m-b-25 Impact
+              //-           h3.f-w-700.text-c-yellow 42.6%
+              //-           p.m-b-0 May 23 - June 01 (2017)
+              //-         .col-auto
+              //-           i.fas.fa-hand-paper.bg-c-yellow

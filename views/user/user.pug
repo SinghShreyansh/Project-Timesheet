@@ -1,0 +1,278 @@
+extends ../layout-admin/layout-admin
+
+block dashboardSidebar
+          li.nav-item
+              a(href='/account/dashboard')
+                p Dashboard
+          li.nav-section
+            span.sidebar-mini-icon
+              i.fa.fa-ellipsis-h
+            h4.text-section Components
+          block userSidebar
+          li.nav-item.active
+              a(href='/account/user')
+               p Users
+          block addUserSidebar
+          li.nav-item
+              a(href='/account/adduser')
+               p Add User
+          block projectSidebar
+          li.nav-item
+              a(href='/account/project')
+               p Projects
+          block addProjectSidebar
+          li.nav-item
+              a(href='/account/addproject')
+               p Add Project
+          block addAssignProjectSidebar
+          li.nav-item
+              a(href='/account/add_assign_project')
+                p Assign Project
+          block tracker
+          li.nav-item
+              a(href='/account/tracker')
+                p Tracker
+          block timesheet
+          li.nav-item
+              a(href='/account/timesheet')
+                p Timesheet
+
+
+block content
+  .main-panel
+    .content
+      .page-inner
+        .page-header
+          h4.page-title Users
+          ul.breadcrumbs
+            li.nav-home
+              a(href='datatables.html#')
+                i.flaticon-home
+            li.separator
+              i.flaticon-right-arrow
+            li.nav-item
+              a(href='datatables.html#') Tables
+            li.separator
+              i.flaticon-right-arrow
+            li.nav-item
+              a(href='datatables.html#') Datatables
+        .row
+          .col-md-12
+            .card
+              .card-header
+                h4.card-title All Users
+              #session.user
+               if session.user.role==1
+                .card-body
+                  .table-responsive
+                    table#basic-datatable.display.table.table-striped.table-hover
+                      thead
+                        tr
+                          th Name
+                          th Email
+                          th Role
+                          th Status
+                          th Start date
+                          th Action
+                      tfoot
+                        tr
+                          th Name
+                          th Email
+                          th Role
+                          th Status
+                          th Start date
+                          th Action
+                      tbody
+                        each data in userData
+                          tr
+                            td #{data.name}
+                            td #{data.email}
+                            td #{data.role===1?"admin":"employee"}
+                            td #{data.status}
+                            td #{new Date(Date.parse(data.createdAt)).toLocaleString().slice(0,9)}
+                            td
+                              .d-flex.flex-row.justify-content-center.align-items-center
+                                  a.btn.btn-link.btn-primary.btn-lg(type='button' data-toggle='tooltip' title='' onclick=`${session.user.role}==1?UserViewCall(this.getAttribute("value")):Alert()` data-original-title='View Password' value=data._id)
+                                    i.fa.fa-eye
+                                  a.btn.btn-link.btn-danger(type='button' data-toggle='tooltip' href=`/account/getedituser?id=${data._id}` title='' data-original-title='Edit' value=data._id)
+                                    i.fa.fa-edit
+               else
+                .card-body
+                  .table-responsive
+                    table#basic-datatable.display.table.table-striped.table-hover
+                      thead
+                        tr
+                          th Name
+                          th Email
+                          th Role
+                          th Status
+                          th Start date
+                      tfoot
+                        tr
+                          th Name
+                          th Email
+                          th Role
+                          th Status
+                          th Start date
+                      tbody
+                        each data in userData
+                          tr
+                            td #{data.name}
+                            td #{data.email}
+                            td #{data.role===1?"admin":"employee"}
+                            td #{data.status}
+                            td #{new Date(Date.parse(data.createdAt)).toLocaleString().slice(0,9)}
+
+
+    footer.footer
+      .container-fluid
+        nav.pull-left
+          ul.nav
+            li.nav-item
+              a.nav-link(href='https://www.themekita.com')
+                | ThemeKita
+            li.nav-item
+              a.nav-link(href='index.html#')
+                | Help
+            li.nav-item
+              a.nav-link(href='index.html#')
+                | Licenses
+        .copyright.ml-auto
+          | 2018, made with
+          i.fa.fa-heart.heart.text-danger
+          |  by
+          a(href='https://www.themekita.com') ThemeKita
+
+
+block pageScript
+  script(src='/assets/js/core/jquery.3.2.1.min.js')
+  script(src='/assets/js/core/popper.min.js')
+  script(src='/assets/js/core/bootstrap.min.js')
+  // jQuery UI
+  script(src='/assets/js/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js')
+  script(src='/assets/js/plugin/jquery-ui-touch-punch/jquery.ui.touch-punch.min.js')
+  // jQuery Scrollbar
+  script(src='/assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js')
+  // Datatables
+  script(src='/assets/js/plugin/datatables/datatables.min.js')
+  // Atlantis JS
+  script(src='/assets/js/atlantis.min.js')
+  // SweetAlert
+  script(src='https://cdn.jsdelivr.net/npm/sweetalert2@11.4.17/dist/sweetalert2.all.min.js')
+  script(src='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js')
+
+  // Atlantis DEMO methods, don't include it in your project!
+  script(src='/assets/js/setting-demo2.js')
+  script.
+      //== Class Initialization
+      $(document).ready(function() {
+          $('#basic-datatable').DataTable({
+          });
+
+
+       });
+
+          function UserViewCall(userId){
+            var SweetAlert2Demo = function() {
+                  //== Demos
+                  var initDemos = function() {
+
+                      Swal.fire({
+                          title: 'Enter your admin password',
+                          input: 'text',
+                          inputAttributes: {
+                            autocapitalize: 'off',
+                            id:'popupAdminPassword'
+                          },
+                          showCancelButton: true,
+                          confirmButtonText: 'Login',
+
+                        }).then((result) => {
+                          if (result.isConfirmed) {
+                            //ajax call
+
+                            $.ajax({
+                                    type: "POST",
+                                    url: "/account/checkpassword",
+                                    data:  {password : $('#popupAdminPassword').val(),type:'justCheck'},
+                                    cache: false,
+                                    success: function(data){
+                                      if(data.type==='success'){
+                                            $.ajax({
+                                            type: "POST",
+                                            url: "/account/getUserPassword",
+                                            data : {id : userId},
+                                            success: function(result) {
+                                                if(result.type==='success'){
+                                                    Swal.fire({
+                                                      title: `User password is \n ${result.password}`,
+                                                    })
+                                                }else{
+                                                      Swal.fire({
+                                                      title: `Error : User password not found`,
+                                                    })
+                                                }
+                                            }});
+
+
+                                      }else{
+                                        Swal.fire({
+                                                  title: `Error : Admin Password not match`,
+                                                })
+                                      }
+
+                                    }
+
+                                  });
+
+                          }
+                        })
+
+
+                  };
+                  return {
+                      //== Init
+                      init: function() {
+                      initDemos();
+                      },
+                  };
+              }();
+
+
+                 //== Class Initialization
+              jQuery(document).ready(function() {
+                  SweetAlert2Demo.init();
+              });
+          }
+
+
+          function Alert(){
+            var SweetAlert2Demo2 = function() {
+                  //== Demos
+                  var initDemos = function() {
+                      Swal.fire({
+                                icon: 'error',
+                                text: 'You are not admin',
+                              })
+                  };
+                  return {
+                      //== Init
+                      init: function() {
+                      initDemos();
+                      },
+                  };
+              }();
+
+
+                 //== Class Initialization
+              jQuery(document).ready(function() {
+                  SweetAlert2Demo2.init();
+              });
+          }
+
+
+
+
+
+
+

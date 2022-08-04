@@ -1,0 +1,64 @@
+extends layout-admin
+
+include mixins/_pagination-donate
+
+block content
+  //- p= h.dump(feeds)
+  .pcoded-content
+    .page-header.card
+      .row.align-items-end
+        .col-lg-8
+          .page-header-title
+            i.feather.icon-clipboard.bg-c-blue
+            .d-inline
+              h5 View All Cause
+              //- span lorem ipsum dolor sit amet, consectetur adipisicing elit
+        .col-lg-4
+          .page-header-breadcrumb
+            ul.breadcrumb.breadcrumb-title
+              li.breadcrumb-item
+                a(href='/admin/dashboard')
+                  i.feather.icon-home
+              li.breadcrumb-item
+                a(href='javascript:void(0)') View All Cause
+    .pcoded-inner-content
+      .main-body
+        .page-wrapper
+          .page-body
+            .row
+              .col-sm-12
+                .card
+                  .card-header
+                    h5 View All Cause
+                  .card-block
+                    .table-responsive
+                      table.table.table-sm
+                        thead
+                          tr
+                            th Image
+                            th title
+                            th Description
+                            th Status
+                            th Action
+                        each donate in donates
+                          tbody
+                            tr
+                              td
+                                if donate.image
+                                  .media-left.photo-table
+                                    a(href='javascript:void(0)')
+                                      img.media-object(src=`${donate.image}`)
+                                else
+                                  | Not Provided
+                              td #{donate.title ? (donate.title.split(" ").length > 5 ? `${donate.title.split(" ").slice(0, 5).join(" ")}...` : donate.title) : 'Not Provided'}
+                              td #{donate.desc ? (donate.desc.split(" ").length > 5 ? `${donate.desc.split(" ").slice(0, 5).join(" ")}...` : donate.desc) : 'Not Provided'}
+                              td
+                                if donate.status == 'active'
+                                  label.label.label-success Active
+                                else if donate.status == 'inactive'
+                                  label.label.label-danger Inactive
+                              td
+                                a(href=`/admin/donate/edit/${donate._id}`)
+                                  | Edit
+            .row
+              +paginationDonate(page, pages, count)

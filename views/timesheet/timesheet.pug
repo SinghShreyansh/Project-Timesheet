@@ -1,0 +1,272 @@
+extends ../layout-admin/layout-admin
+
+block dashboardSidebar
+          li.nav-item
+              a(href='/account/dashboard')
+                p Dashboard
+          li.nav-section
+            span.sidebar-mini-icon
+              i.fa.fa-ellipsis-h
+            h4.text-section Components
+          block userSidebar
+          li.nav-item
+              a(href='/account/user')
+               p Users
+          block addUserSidebar
+          li.nav-item
+              a(href='/account/adduser')
+               p Add User
+          block projectSidebar
+          li.nav-item
+              a(href='/account/project')
+               p Projects
+          block addProjectSidebar
+          li.nav-item
+              a(href='/account/addproject')
+               p Add Project
+          block addAssignProjectSidebar
+          li.nav-item
+              a(href='/account/add_assign_project')
+                p Assign Project
+          block tracker
+          li.nav-item
+              a(href='/account/tracker')
+                p Tracker
+          block timesheet
+          li.nav-item.active
+              a(href='/account/timesheet')
+                p Timesheet
+
+
+block content
+  .main-panel
+    .content
+      .page-inner
+        .page-header
+          h4.page-title TimeSheet
+          ul.breadcrumbs
+            li.nav-home
+              a(href='datatables.html#')
+                i.flaticon-home
+            li.separator
+              i.flaticon-right-arrow
+            li.nav-item
+              a(href='datatables.html#') Tables
+            li.separator
+              i.flaticon-right-arrow
+            li.nav-item
+              a(href='datatables.html#') Datatables
+        .row
+          .col-md-12
+            .card
+              .card-header
+                h4.card-title All Users
+                #userId(style='display:none;') #{session.user._id}
+                br
+                .demo
+                  ul.pagination.pg-primary
+                    li.page-item
+                      button.page-link.bg-primary(style='color:white' onclick=`getPreWeekData(-1)` aria-label='Previous')
+                        span(aria-hidden='true') &laquo;
+                        span.sr-only Previous
+                    li.page-item
+                      #startWeekDate(style='font-size:18px;padding:5px;') 11-07-2022
+                    li.page-item
+                      .to(style='font-size:18px;padding:5px' ) To
+                    li.page-item
+                      #endWeekDate(style='font-size:18px;padding:5px') 17-07-2022
+                    li.page-item
+                      input#setWeekNumber(type='text' style='font-size:18px;padding:2px;display:none')
+                    li.page-item
+                      button.page-link.bg-primary(style='color:white' onclick=`getPreWeekData(1)` aria-label='Next')
+                        span(aria-hidden='true') &raquo;
+                        span.sr-only Next
+              .card-body
+                 #noDataDiv(style='display:none;font-weight:800') no data found !
+                 table#tableHead.table.table-head-bg-primary.mt-4
+                    thead
+                      tr
+                        th(scope='col') Project Name
+                        th(scope='col') Monday
+                        th(scope='col') Tuesday
+                        th(scope='col') Wednesday
+                        th(scope='col') Thursday
+                        th(scope='col') Friday
+                        th(scope='col') Saturday
+                        th(scope='col') Sunday
+                        th(scope='col') Total Time
+                    tbody#timeSheetTableBody
+
+
+
+
+
+    footer.footer
+                      .container-fluid
+                        nav.pull-left
+                          ul.nav
+                            li.nav-item
+                              a.nav-link(href='https://www.themekita.com')
+                                | ThemeKita
+                            li.nav-item
+                              a.nav-link(href='index.html#')
+                                | Help
+                            li.nav-item
+                              a.nav-link(href='index.html#')
+                                | Licenses
+                        .copyright.ml-auto
+                          | 2018, made with
+                          i.fa.fa-heart.heart.text-danger
+                          |  by
+                          a(href='https://www.themekita.com') ThemeKita
+
+
+block pageScript
+  script(src='/assets/js/core/jquery.3.2.1.min.js')
+  script(src='/assets/js/core/popper.min.js')
+  script(src='/assets/js/core/bootstrap.min.js')
+  // jQuery UI
+  script(src='/assets/js/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js')
+  script(src='/assets/js/plugin/jquery-ui-touch-punch/jquery.ui.touch-punch.min.js')
+  // jQuery Scrollbar
+  script(src='/assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js')
+  // Datatables
+  script(src='/assets/js/plugin/datatables/datatables.min.js')
+  // Atlantis JS
+  script(src='/assets/js/atlantis.min.js')
+  // SweetAlert
+  script(src='https://cdn.jsdelivr.net/npm/sweetalert2@11.4.17/dist/sweetalert2.all.min.js')
+  script(src='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js')
+
+  // Atlantis DEMO methods, don't include it in your project!
+  script(src='/assets/js/setting-demo2.js')
+  script.
+      //== Class Initialization
+      $(document).ready(function() {
+        var userId= $('#userId').html();
+                   $.ajax({
+                        type: "POST",
+                        url: "/account/getCurrWeekData",
+                        data : {id : userId},
+                        success: function(result) {
+                            if(result.type==='success'){
+                                $('#startWeekDate').html(result.startDate)
+                                $('#endWeekDate').html(result.endDate)
+                                $('#setWeekNumber').val(0)
+                                if(result.timesheet&&result.projectName){
+                                  $('#noDataDiv').css('display','none')
+                                  $("#tableHead").css('display','block')
+                                var timeArr = result.timesheet;
+                                var projName =result.projectName;
+                                document.getElementById("timeSheetTableBody").innerHTML=
+                                 projName.map((name,index)=>{
+                                    return "<tr>"+
+                                      "<td>"+ name+"</td>"+
+                                      "<td>"+ timeArr[index][0]+"</td>"+
+                                      "<td>"+ timeArr[index][1]+"</td>"+
+                                      "<td>"+ timeArr[index][2]+"</td>"+
+                                      "<td>"+ timeArr[index][3]+"</td>"+
+                                      "<td>"+ timeArr[index][4]+"</td>"+
+                                      "<td>"+ timeArr[index][5]+"</td>"+
+                                      "<td>"+ timeArr[index][6]+"</td>" +
+                                       "<td>"+ result.totalTime[index]+"</td>"
+                                    +"</tr>"
+                                  })
+                                }else{
+                                  $('#noDataDiv').css('display','block')
+                                  $("#tableHead").css('display','none')
+                                }
+
+                            }else{
+                                  Swal.fire({
+                                  title: `Error : User password not found`,
+                                })
+                            }
+                        }});
+
+       });
+
+
+          function getPreWeekData(preOrpost){
+            var userId= $('#userId').html();
+             var number;
+            if(preOrpost<0){
+                 number = $('#setWeekNumber').val() - 1;
+            }else{
+                 number = $('#setWeekNumber').val()*1 + 1;
+            }
+                   $.ajax({
+                        type: "POST",
+                        url: "/account/getPreWeekData",
+                        data : {id : userId,number: number},
+                        success: function(result) {
+                            if(result.type==='success'){
+                                 $('#startWeekDate').html(result.startDate)
+                                $('#endWeekDate').html(result.endDate)
+                                $('#setWeekNumber').val(number)
+                                if(result.projectName){
+                                  $('#noDataDiv').css('display','none')
+                                  $("#tableHead").css('display','block')
+                                  var timeArr = result.timesheet;
+                                  var projName =result.projectName;
+                                  document.getElementById("timeSheetTableBody").innerHTML=
+                                  projName.map((name,index)=>{
+                                      return "<tr>"+
+                                        "<td>"+ name+"</td>"+
+                                        "<td>"+ timeArr[index][0]+"</td>"+
+                                        "<td>"+ timeArr[index][1]+"</td>"+
+                                        "<td>"+ timeArr[index][2]+"</td>"+
+                                        "<td>"+ timeArr[index][3]+"</td>"+
+                                        "<td>"+ timeArr[index][4]+"</td>"+
+                                        "<td>"+ timeArr[index][5]+"</td>"+
+                                        "<td>"+ timeArr[index][6]+"</td>" +
+                                        "<td>"+ result.totalTime[index]+"</td>"
+                                      +"</tr>"
+                                    })
+
+                                    if($('#timeSheetTableBody').html()==""){
+                                      $('#noDataDiv').css('display','block')
+                                      $("#tableHead").css('display','none')
+                                    }
+                                }else {
+                                  $('#noDataDiv').css('display','block')
+                                  $("#tableHead").css('display','none')
+                                }
+                            }else{
+                                  Swal.fire({
+                                  title: `Error : User password not found`,
+                                })
+                            }
+                        }});
+          }
+
+          function Alert(){
+            var SweetAlert2Demo2 = function() {
+                  //== Demos
+                  var initDemos = function() {
+                      Swal.fire({
+                                icon: 'error',
+                                text: 'You are not admin',
+                              })
+                  };
+                  return {
+                      //== Init
+                      init: function() {
+                      initDemos();
+                      },
+                  };
+              }();
+
+
+                 //== Class Initialization
+              jQuery(document).ready(function() {
+                  SweetAlert2Demo2.init();
+              });
+          }
+
+
+
+
+
+
+

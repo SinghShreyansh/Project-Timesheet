@@ -1,0 +1,83 @@
+extends layout-admin
+
+block content
+  //- p= h.dump(event)
+  .pcoded-content
+    .page-header.card
+      .row.align-items-end
+        .col-lg-8
+          .page-header-title
+            i.feather.icon-clipboard.bg-c-blue
+            .d-inline
+              h5 #{event.name}
+              //- span lorem ipsum dolor sit amet, consectetur adipisicing elit
+        .col-lg-4
+          .page-header-breadcrumb
+            ul.breadcrumb.breadcrumb-title
+              li.breadcrumb-item
+                a(href='/admin/dashboard')
+                  i.feather.icon-home
+              li.breadcrumb-item
+                a(href='javascript:void(0)') #{event.name}
+    .pcoded-inner-content
+      .main-body
+        .page-wrapper
+          .page-body
+            .row
+              .col-sm-12
+                .card
+                  .card-header
+                    h5 Information
+                  .card-block
+                    strong
+                      if event.name
+                        h5
+                          u Name
+                          |&nbsp;→ #{event.name}
+                        hr
+                      if event.desc
+                        h5
+                          u Description
+                          | &nbsp;→ #{event.desc}
+                        hr
+                      if event.insta_link
+                        h5
+                          u Instagram Link
+                          | &nbsp;→ #{event.insta_link}
+                        hr
+                      if event.fb_link
+                        h5
+                          u Facebook Link
+                          | &nbsp;→ #{event.fb_link}
+                        hr
+                      if event.image
+                        h5
+                          u Display Image →
+                            .image-area
+                              img(src=`${event.image}`, alt="", width=200, height=200, style="margin-right:20px;")
+                              a.remove-image(href=`/admin/event/remove/display/image/event/${event._id}`, style='display: inline;') ×
+                        br
+                        hr
+                      if event.image_gallery
+                        each img, i in event.image_gallery
+                          h5
+                            u Events Images #{i + 1} →
+                              .image-area
+                                img(src=`${img}`, alt="", width=200, height=200, style="margin-right:20px;")
+                                a.remove-image(href=`/admin/event/remove/gallery/image/event/${event._id}/${i}`, style='display: inline;') ×
+                          hr
+                      if event.status == 'active'
+                        h5
+                          u Status
+                          | &nbsp;→ Active
+                      else if event.status == 'inactive'
+                        h5
+                          u Status
+                          | &nbsp;→ Inactive
+                      hr
+                      if event.location.address
+                        h5
+                          u Name
+                          |&nbsp;→ #{event.location.address}
+                a(href=`/admin/event/update/${event._id}`)
+                  button.btn.btn-success.btn-round.waves-effect.waves-light(style="margin-right: 20px;") Edit #{event.name}
