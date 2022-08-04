@@ -45,18 +45,7 @@ exports.adminLogin =async(req,res,next)=>{
     if(data){
         const passwordResult = await bcryptjs.compare(req.body.password, data.password)
         if(passwordResult){
-            // const accountSid = 'ACb14c912ae67ae039dce6ce4a2392b6bc';
-            // const authToken = '0af9247b91ef30849c66bfa841cff2a9';
-            // const client = require('twilio')(accountSid, authToken);
-            // console.log("message sending")
-            // client.messages
-            //     .create({
-            //         body: 'hello again from app',
-            //         messagingServiceSid: 'MGc47d0ada3c095a13eaef01c3651be898',
-            //         to: '+917498063716'
-            //     })
-            //     .then(message => console.log(message.sid + "  message send"))
-            //     .done();
+
 
                 req.session.user = data;
                 res.redirect('/account/dashboard')
