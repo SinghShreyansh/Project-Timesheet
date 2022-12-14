@@ -13,6 +13,8 @@ router.get('/user',isAuthenticated,
   accountController.user
 );
 
+router.get('/',isAuthenticated,(req,res)=>{return res.status(200).json({"msg":"Server is working ...."})});
+
 router.get('/adduser',isAuthenticated,
   accountController.addUser
 );
