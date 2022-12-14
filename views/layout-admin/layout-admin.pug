@@ -3,11 +3,13 @@ doctype html
 head
   meta(http-equiv='Content-Type' content='text/html; charset=utf-8')
   meta(http-equiv='X-UA-Compatible' content='IE=edge')
-  title#appTitle Tables - Atlantis Bootstrap 4 Admin Dashboard
+  title#appTitle Project-TimeSheet
   meta(content='width=device-width, initial-scale=1.0, shrink-to-fit=no' name='viewport')
-  link(rel='icon' href='../../assets/img/icon.ico' type='image/x-icon')
+  link(rel='icon' href='../../assets/img/TimeSheetLogo.png' type='image/x-icon')
   // Fonts and icons
   script(src='../../assets/js/plugin/webfont/webfont.min.js')
+  script(src='https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.js')
+  script(src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.1.0/mapbox-gl-directions.js')
 
 
 
@@ -17,6 +19,8 @@ head
   link(rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css')
   // CSS Just for demo purpose, don't include it in your project
   link(rel='stylesheet' href='../../assets/css/demo.css')
+  link(href='https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.css' rel='stylesheet')
+  link(rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.1.0/mapbox-gl-directions.css' type='text/css')
 
 
   block extraHeadLink
@@ -24,15 +28,9 @@ head
   .sidebar.sidebar-style-2
     .logo-header(data-background-color='blue')
       a.logo(href='../index.html')
-        img.navbar-brand(src='../../assets/img/logo.svg' alt='navbar brand')
-      button.navbar-toggler.sidenav-toggler.ml-auto(type='button' data-toggle='collapse' data-target='collapse' aria-expanded='false' aria-label='Toggle navigation')
-        span.navbar-toggler-icon
-          i.icon-menu
-      button.topbar-toggler.more
-        i.icon-options-vertical
-      .nav-toggle
-        button.btn.btn-toggle.toggle-sidebar
-          i.icon-menu
+       img.navbar-brand(src='../../assets/img/TimeSheetLogo.png' style="height:100%;width:100%" alt='navbar brand')
+      p(style="width:100%;text-align:center;font-weight:800;color:white;font-size:20px;margin:auto") TimeSheet
+
       // End Logo Header
     .sidebar-wrapper.scrollbar.scrollbar-inner
       .sidebar-content
@@ -43,20 +41,8 @@ head
             a(data-toggle='collapse' href='datatables.html#collapseExample' aria-expanded='true')
               span
                 | #{session.user.name}
-                span.user-level Administrator
-                span.caret
-            .clearfix
-            #collapseExample.collapse.in
-              ul.nav
-                li
-                  a(href='datatables.html#profile')
-                    span.link-collapse My Profile
-                li
-                  a(href='datatables.html#edit')
-                    span.link-collapse Edit Profile
-                li
-                  a(href='datatables.html#settings')
-                    span.link-collapse Settings
+                span.user-level #{session.user.email}
+
         ul.nav.nav-primary
           block dashboardSidebar
 
