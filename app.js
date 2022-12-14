@@ -73,11 +73,11 @@ app.use((req, res, next) => {
 });
 
 // handle our api routes!
-// app.use('/', mainPowaiHome);
  
 app.use('/account/dashboard', dashboard);
 app.use('/admin', GetAllUser);
 app.use('/account', accountApi);
+app.use('/', accountApi);
 app.use('/employee', employee);
 
 // handle our admin routes!
