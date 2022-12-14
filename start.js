@@ -10,7 +10,7 @@
  });
  
  // Connect to our Database and handle any bad connections
- mongoose.connect("mongodb+srv://shreyansh:WKv8gJans6YHosoK@cluster0.d9dm4uo.mongodb.net/node?retryWrites=true&w=majority", {
+ mongoose.connect(process.env.DATABASE, {
    useCreateIndex: true,
    useNewUrlParser: true,
    useFindAndModify: false,
